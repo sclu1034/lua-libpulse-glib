@@ -1,0 +1,3 @@
+[submodule "lib/lgi"]
+	path = lib/lgi
+	url = https://github.com/lgi-devs/lgi

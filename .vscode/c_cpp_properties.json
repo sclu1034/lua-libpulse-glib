@@ -7,7 +7,8 @@
                 "/usr/include/lua5.3",
                 "/usr/include/glib-2.0",
                 "/usr/lib/glib-2.0/include",
-                "/usr/lib/x86_64-linux-gnu/glib-2.0/include"
+                "/usr/lib/x86_64-linux-gnu/glib-2.0/include",
+                "/usr/include/gobject-introspection-1.0"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

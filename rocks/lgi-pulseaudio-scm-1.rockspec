@@ -33,6 +33,7 @@ build = {
         INSTALL_LIBDIR="$(LIBDIR)",
         INSTALL_LUADIR="$(LUADIR)",
         INSTALL_CONFDIR="$(CONFDIR)",
+        INSTALL_DOCDIR="$(DOCDIR)",
     },
     copy_directories = {
         "spec"
