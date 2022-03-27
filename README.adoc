@@ -1,0 +1,45 @@
+= lua-libpulse-glib
+:idprefix:
+:idseparator: -
+ifdef::env-github,env-browser[]
+:toc: macro
+:toclevels: 1
+endif::[]
+ifdef::env-github[]
+:branch: master
+:status:
+:outfilesuffix: .adoc
+:!toc-title:
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
+:url-ci-github: https://github.com/sclu1034/lua-libpulse-glib/actions
+:url-ci-badge-github: https://img.shields.io/github/workflow/status/sclu1034/lua-libpulse-glib/Lint%20&%20Test?style=flat-square
+:url-license-badge: https://img.shields.io/badge/license-GPLv3-brightgreen?style=flat-square
+:url-luarocks-badge: https://img.shields.io/luarocks/v/sclu1034/lua-libpulse-glib?style=flat-square
+:url-luarocks-link: https://luarocks.org/modules/sclu1034/lua-libpulse-glib
+
+image:{url-license-badge}[License]
+ifdef::status[]
+image:{url-ci-badge-github}[Build Status (GitHub Actions), link={url-ci-github}]
+endif::[]
+image:{url-luarocks-badge}[LuaRocks Package, link={url-luarocks-link}]
+
+https://freedesktop.org/software/pulseaudio/doxygen/index.html[libpulse] bindings for use with a GLib MainLoop via
+https://github.com/lgi-devs/lgi/[LGI].
+
+== Installation
+
+_lua-libpulse-glib_ is available via LuaRocks:
+
+[source,shell]
+----
+luarocks install lua-libpulse-glib
+----
+
+When cloning/vendoring the library, the following dependencies are required:
+
+* https://github.com/lgi-devs/lgi[lgi]

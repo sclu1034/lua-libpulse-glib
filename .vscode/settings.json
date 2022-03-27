@@ -1,0 +1,10 @@
+{
+    "C_Cpp.errorSquiggles": "Enabled",
+    "files.associations": {
+        "**/tasks/*.yml": "ansible",
+        "*.rockspec": "lua",
+        "*.ld": "lua",
+        "glib-mainloop.h": "c",
+        "lua.h": "c"
+    }
+}
