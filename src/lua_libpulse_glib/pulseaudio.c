@@ -71,8 +71,20 @@ pulseaudio_new(lua_State* L)
 }
 
 
-// TODO: Implement `__gc` meta method to free the inner `pa_glib_mainloop`
+/**
+ * Free the PulseAudio object
+ */
+static int
+pulseaudio__gc(lua_State* L)
+{
+    pulseaudio* pa = luaL_checkudata(L, 1, LUA_PULSEAUDIO);
+    pa_glib_mainloop_free(pa->mainloop);
+    return 0;
+}
+
+
 static const struct luaL_Reg pulseaudio_mt [] = {
+    {"__gc", pulseaudio__gc},
     {NULL, NULL}
 };
 
