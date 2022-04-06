@@ -6,6 +6,8 @@
 #include <lualib.h>
 #include <lauxlib.h>
 #include <pulse/glib-mainloop.h>
+#include "pulseaudio.h"
+#include "context.h"
 
 #define LUA_MOD_EXPORT extern
 #define LUA_PULSEAUDIO "pulseaudio"
@@ -13,7 +15,7 @@
 
 #if LUA_VERSION_NUM <= 501
 // Shamelessly copied from Lua 5.3 source.
-// TODO: Is there any official way to do this in 5.1?
+// TODO: What's the official way to do this in 5.1?
 void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup) {
     luaL_checkstack(L, nup, "too many upvalues");
     for (; l->name != NULL; l++) {  /* fill the table with given functions */
@@ -35,11 +37,6 @@ void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup) {
 #endif
 
 
-typedef struct pulseaudio {
-    pa_glib_mainloop* mainloop;
-} pulseaudio;
-
-
 /**
  * Creates a new PulseAudio object.
  *
@@ -48,7 +45,7 @@ typedef struct pulseaudio {
  *
  * @return[type=PulseAudio]
  */
-static int
+int
 pulseaudio_new(lua_State* L)
 {
     GMainContext* ctx = g_main_context_default();
@@ -72,9 +69,22 @@ pulseaudio_new(lua_State* L)
 
 
 /**
+ * Proxies table index operations to our metatable.
+ */
+int
+pulseaudio__index(lua_State* L)
+{
+    const char* index = luaL_checkstring(L, 2);
+    luaL_getmetatable(L, LUA_PULSEAUDIO);
+    lua_getfield(L, -1, index);
+    return 1;
+}
+
+
+/**
  * Free the PulseAudio object
  */
-static int
+int
 pulseaudio__gc(lua_State* L)
 {
     pulseaudio* pa = luaL_checkudata(L, 1, LUA_PULSEAUDIO);
@@ -83,20 +93,27 @@ pulseaudio__gc(lua_State* L)
 }
 
 
-static const struct luaL_Reg pulseaudio_mt [] = {
-    {"__gc", pulseaudio__gc},
-    {NULL, NULL}
-};
-
-
-static const struct luaL_Reg pulseaudio_lib [] = {
-    {"new", pulseaudio_new},
-    {NULL, NULL}
-};
+int
+pulseaudio_new_context(lua_State* L)
+{
+    pulseaudio* pa = luaL_checkudata(L, 1, LUA_PULSEAUDIO);
+    return context_new(L, pa_glib_mainloop_get_api(pa->mainloop));
+}
 
 
 LUA_MOD_EXPORT int luaopen_lua_libpulse_glib(lua_State* L)
 {
+    // Create a table to store callback refs in, stored in the Lua registry
+    lua_pushstring(L, LUA_PULSEAUDIO);
+    lua_newtable(L);
+    lua_pushstring(L, LUA_PA_REGISTRY);
+    lua_newtable(L);
+    lua_settable(L, -3);
+    lua_rawset(L, LUA_REGISTRYINDEX);
+
+    luaL_newmetatable(L, LUA_PA_CONTEXT);
+    luaL_setfuncs(L, context_mt, 0);
+
     luaL_newmetatable(L, LUA_PULSEAUDIO);
     luaL_setfuncs(L, pulseaudio_mt, 0);
 
