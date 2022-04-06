@@ -1,0 +1,90 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/x86_64-linux-gnu-gcc-10",
+      "-c",
+      "-fPIC",
+      "-Wall",
+      "-g",
+      "-D_REENTRANT",
+      "-I/usr/include/gobject-introspection-1.0",
+      "-I/usr/include/glib-2.0",
+      "-I/usr/lib/x86_64-linux-gnu/glib-2.0/include",
+      "-I/usr/include/lua5.1",
+      "-I/usr/include/lua5.1",
+      "-I./",
+      "src/lua_libpulse_glib/context.c",
+      "-o",
+      "out/src/lua_libpulse_glib/context.o"
+    ],
+    "directory": "/home/gerlui/projects/lgi-pulseaudio",
+    "file": "/home/gerlui/projects/lgi-pulseaudio/src/lua_libpulse_glib/context.c",
+    "output": "/home/gerlui/projects/lgi-pulseaudio/out/src/lua_libpulse_glib/context.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/x86_64-linux-gnu-gcc-10",
+      "-c",
+      "-fPIC",
+      "-Wall",
+      "-g",
+      "-D_REENTRANT",
+      "-I/usr/include/gobject-introspection-1.0",
+      "-I/usr/include/glib-2.0",
+      "-I/usr/lib/x86_64-linux-gnu/glib-2.0/include",
+      "-I/usr/include/lua5.1",
+      "-I/usr/include/lua5.1",
+      "-I./",
+      "src/lua_libpulse_glib/pulseaudio.c",
+      "-o",
+      "out/src/lua_libpulse_glib/pulseaudio.o"
+    ],
+    "directory": "/home/gerlui/projects/lgi-pulseaudio",
+    "file": "/home/gerlui/projects/lgi-pulseaudio/src/lua_libpulse_glib/pulseaudio.c",
+    "output": "/home/gerlui/projects/lgi-pulseaudio/out/src/lua_libpulse_glib/pulseaudio.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/x86_64-linux-gnu-gcc-10",
+      "-c",
+      "-fPIC",
+      "-Wall",
+      "-g",
+      "-D_REENTRANT",
+      "-I/usr/include/gobject-introspection-1.0",
+      "-I/usr/include/glib-2.0",
+      "-I/usr/lib/x86_64-linux-gnu/glib-2.0/include",
+      "-I/usr/include/lua5.1",
+      "-I/usr/include/lua5.1",
+      "-I./",
+      "src/lua_libpulse_glib/init.c",
+      "-o",
+      "out/src/lua_libpulse_glib/init.o"
+    ],
+    "directory": "/home/gerlui/projects/lgi-pulseaudio",
+    "file": "/home/gerlui/projects/lgi-pulseaudio/src/lua_libpulse_glib/init.c",
+    "output": "/home/gerlui/projects/lgi-pulseaudio/out/src/lua_libpulse_glib/init.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/x86_64-linux-gnu-gcc-10",
+      "-c",
+      "-fPIC",
+      "-Wall",
+      "-g",
+      "-D_REENTRANT",
+      "-I/usr/include/gobject-introspection-1.0",
+      "-I/usr/include/glib-2.0",
+      "-I/usr/lib/x86_64-linux-gnu/glib-2.0/include",
+      "-I/usr/include/lua5.1",
+      "-I/usr/include/lua5.1",
+      "-I./",
+      "src/lua_libpulse_glib/introspection.c",
+      "-o",
+      "out/src/lua_libpulse_glib/introspection.o"
+    ],
+    "directory": "/home/gerlui/projects/lgi-pulseaudio",
+    "file": "/home/gerlui/projects/lgi-pulseaudio/src/lua_libpulse_glib/introspection.c",
+    "output": "/home/gerlui/projects/lgi-pulseaudio/out/src/lua_libpulse_glib/introspection.o"
+  }
+]

@@ -96,3 +96,9 @@ test:
 
 rock:
 	luarocks --local --lua-version $(LUA_VERSION) make rocks/lua-libpulse-glib-scm-1.rockspec
+
+run: build
+	env LUA_CPATH="./out/?.so;${LUA_CPATH}" $(LUA) test.lua
+
+debug: build
+	env LUA_CPATH="./out/?.so;${LUA_CPATH}" gdb $(LUA)
