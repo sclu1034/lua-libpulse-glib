@@ -5,6 +5,7 @@
 #include "lauxlib.h"
 #include "pulse/context.h"
 #include "pulse/mainloop-api.h"
+#include "introspection.h"
 
 #define LUA_PA_CONTEXT "pulseaudio.context"
 
@@ -36,5 +37,8 @@ static const struct luaL_Reg context_mt [] = {
     {"__index", context__index},
     {"__gc", context__gc},
     {"connect", context_connect},
+    {"get_server_info", context_get_server_info},
+    {"get_sinks", context_get_sink_info_list},
+    {"get_sources", context_get_source_info_list},
     {NULL, NULL}
 };
