@@ -62,14 +62,14 @@ $(TARGET): $(OBJS)
 	$(CC) $(LIBFLAG) -o $@ $(OBJS) $(LIBS)
 
 doc-styles:
-	@printf "\e[1;97mGenerate stylesheet\e[0m\n"
+	@echo "\033[1;97mGenerate stylesheet\033[0m\n"
 	sass doc/ldoc.scss $(BUILD_DIR)/doc/ldoc.css
 
 doc-content:
 	@mkdir -p "$(BUILD_DIR)/doc" "$(BUILD_DIR)/src"
-	@printf "\e[1;97mPreprocess sources\e[0m\n"
+	@echo "\033[1;97mPreprocess sources\033[0m\n"
 	sh tools/process_docs.sh "$(BUILD_DIR)"
-	@printf "\e[1;97mGenerate documentation\e[0m\n"
+	@echo "\033[1;97mGenerate documentation\033[0m\n"
 	ldoc --config=doc/config.ld --dir "$(BUILD_DIR)/doc" --project $(PROJECT) "$(BUILD_DIR)/src"
 
 doc: doc-content doc-styles
@@ -81,10 +81,10 @@ clean:
 	rm -r out/
 
 install: build doc
-	@printf "\e[1;97mInstall C library\e[0m\n"
+	@echo "\033[1;97mInstall C library\033[0m\n"
 	xargs install -vDm 644 -t $(INSTALL_LIBDIR)/$(PROJECT) $(TARGET)
 
-	@printf "\e[1;97mInstall documentation\e[0m\n"
+	@echo "\033[1;97mInstall documentation\033[0m\n"
 	install -vd $(INSTALL_DOCDIR)
 	cp -vr $(BUILD_DIR)/doc/* $(INSTALL_DOCDIR)
 
