@@ -1,53 +1,42 @@
-/// libpulse bindings.
-//
-// @module pulseaudio
+#include "pulseaudio.h"
 
+#include "context.h"
+#include "lua_util.h"
+#include "proplist.h"
+#include "volume.h"
+
+#include <lauxlib.h>
 #include <lua.h>
 #include <lualib.h>
-#include <lauxlib.h>
 #include <pulse/glib-mainloop.h>
-#include "pulseaudio.h"
-#include "context.h"
 
-#define LUA_MOD_EXPORT extern
 #define LUA_PULSEAUDIO "pulseaudio"
-
 
 #if LUA_VERSION_NUM <= 501
 // Shamelessly copied from Lua 5.3 source.
 // TODO: What's the official way to do this in 5.1?
-void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup) {
+void luaL_setfuncs(lua_State* L, const luaL_Reg* l, int nup) {
     luaL_checkstack(L, nup, "too many upvalues");
-    for (; l->name != NULL; l++) {  /* fill the table with given functions */
-        if (l->func == NULL)  /* place holder? */
+    for (; l->name != NULL; l++) { /* fill the table with given functions */
+        if (l->func == NULL)       /* place holder? */
             lua_pushboolean(L, 0);
         else {
             int i;
-            for (i = 0; i < nup; i++)  /* copy upvalues to the top */
+            for (i = 0; i < nup; i++) /* copy upvalues to the top */
                 lua_pushvalue(L, -nup);
-            lua_pushcclosure(L, l->func, nup);  /* closure with those upvalues */
+            lua_pushcclosure(L, l->func, nup); /* closure with those upvalues */
         }
         lua_setfield(L, -(nup + 2), l->name);
     }
-    lua_pop(L, nup);  /* remove upvalues */
+    lua_pop(L, nup); /* remove upvalues */
 }
 
 
-#define luaL_newlib(L,l) (luaL_register(L,LUA_PULSEAUDIO,l))
+#define luaL_newlib(L, l) (luaL_register(L, LUA_PULSEAUDIO, l))
 #endif
 
 
-/**
- * Creates a new PulseAudio object.
- *
- * The API requires a GLib Main Context internally. Currently, only the default context
- * is supported.
- *
- * @return[type=PulseAudio]
- */
-int
-pulseaudio_new(lua_State* L)
-{
+int pulseaudio_new(lua_State* L) {
     GMainContext* ctx = g_main_context_default();
     if (ctx == NULL) {
         lua_pushfstring(L, "Failed to accquire default GLib Main Context. Are we running in a Main Loop?");
@@ -55,7 +44,7 @@ pulseaudio_new(lua_State* L)
         return 0;
     }
 
-    pulseaudio* pa = lua_newuserdata (L, sizeof(pulseaudio));
+    pulseaudio* pa = lua_newuserdata(L, sizeof(pulseaudio));
     if (!pa) {
         return luaL_error(L, "failed to create pulseaudio userdata");
     }
@@ -68,12 +57,10 @@ pulseaudio_new(lua_State* L)
 }
 
 
-/**
+/*
  * Proxies table index operations to our metatable.
  */
-int
-pulseaudio__index(lua_State* L)
-{
+int pulseaudio__index(lua_State* L) {
     const char* index = luaL_checkstring(L, 2);
     luaL_getmetatable(L, LUA_PULSEAUDIO);
     lua_getfield(L, -1, index);
@@ -81,28 +68,98 @@ pulseaudio__index(lua_State* L)
 }
 
 
-/**
+/*
  * Free the PulseAudio object
  */
-int
-pulseaudio__gc(lua_State* L)
-{
+int pulseaudio__gc(lua_State* L) {
     pulseaudio* pa = luaL_checkudata(L, 1, LUA_PULSEAUDIO);
     pa_glib_mainloop_free(pa->mainloop);
     return 0;
 }
 
 
-int
-pulseaudio_new_context(lua_State* L)
-{
+int pulseaudio_new_context(lua_State* L) {
     pulseaudio* pa = luaL_checkudata(L, 1, LUA_PULSEAUDIO);
     return context_new(L, pa_glib_mainloop_get_api(pa->mainloop));
 }
 
 
-LUA_MOD_EXPORT int luaopen_lua_libpulse_glib(lua_State* L)
-{
+void createlib_volume(lua_State* L) {
+    luaL_newmetatable(L, LUA_PA_VOLUME);
+
+    lua_createtable(L, 0, sizeof volume_f / sizeof volume_f[0]);
+    luaL_setfuncs(L, volume_f, 0);
+    lua_setfield(L, -2, "__index");
+
+    luaL_setfuncs(L, volume_mt, 0);
+
+#if LUA_VERSION_NUM <= 501
+    luaL_register(L, LUA_PA_VOLUME, volume_lib);
+#else
+    luaL_newlib(L, volume_lib);
+#endif
+    lua_setmetatable(L, -2);
+}
+
+
+void createlib_proplist(lua_State* L) {
+    luaL_newmetatable(L, LUA_PA_PROPLIST);
+
+    lua_createtable(L, 0, sizeof proplist_f / sizeof proplist_f[0]);
+    luaL_setfuncs(L, proplist_f, 0);
+    lua_setfield(L, -2, "__index");
+
+    luaL_setfuncs(L, proplist_mt, 0);
+
+#if LUA_VERSION_NUM <= 501
+    luaL_register(L, LUA_PA_PROPLIST, proplist_lib);
+#else
+    luaL_newlib(L, proplist_lib);
+#endif
+
+    // Create a metatable with an `__index` table for read-only enum fields.
+    lua_createtable(L, 0, 1);
+
+    lua_createtable(L, 0, sizeof proplist_enum / sizeof proplist_enum[0]);
+    for (int i = 0; proplist_enum[i].name != NULL; ++i) {
+        lua_pushstring(L, proplist_enum[i].value);
+        lua_setfield(L, -2, proplist_enum[i].name);
+    }
+
+    lua_setfield(L, -2, "__index");
+    lua_setmetatable(L, -2);
+}
+
+
+void createlib_context(lua_State* L) {
+    luaL_newmetatable(L, LUA_PA_CONTEXT);
+
+    lua_createtable(L, 0, sizeof context_f / sizeof context_f[0]);
+    luaL_setfuncs(L, context_f, 0);
+    lua_setfield(L, -2, "__index");
+
+    luaL_setfuncs(L, context_mt, 0);
+}
+
+
+void createlib_pulseaudio(lua_State* L) {
+    luaL_newmetatable(L, LUA_PULSEAUDIO);
+
+    lua_createtable(L, 0, sizeof pulseaudio_f / sizeof pulseaudio_f[0]);
+    luaL_setfuncs(L, pulseaudio_f, 0);
+    lua_setfield(L, -2, "__index");
+
+    luaL_setfuncs(L, pulseaudio_mt, 0);
+
+#if LUA_VERSION_NUM <= 501
+    luaL_register(L, LUA_PULSEAUDIO, pulseaudio_lib);
+#else
+    luaL_newlib(L, pulseaudio_lib);
+#endif
+}
+
+
+LUA_MOD_EXPORT int luaopen_lua_libpulse_glib(lua_State* L) {
     // Create a table to store callback refs in, stored in the Lua registry
     lua_pushstring(L, LUA_PULSEAUDIO);
     lua_newtable(L);
@@ -111,12 +168,9 @@ LUA_MOD_EXPORT int luaopen_lua_libpulse_glib(lua_State* L)
     lua_settable(L, -3);
     lua_rawset(L, LUA_REGISTRYINDEX);
 
-    luaL_newmetatable(L, LUA_PA_CONTEXT);
-    luaL_setfuncs(L, context_mt, 0);
-
-    luaL_newmetatable(L, LUA_PULSEAUDIO);
-    luaL_setfuncs(L, pulseaudio_mt, 0);
-
-    luaL_newlib(L, pulseaudio_lib);
+    createlib_volume(L);
+    createlib_context(L);
+    createlib_proplist(L);
+    createlib_pulseaudio(L);
     return 1;
 }

@@ -14,7 +14,7 @@ run() {
     "$@"
 }
 
-find src -iname '*.lua' -or -iname '*.c' -not -path '*/internal/*' | while read -r f; do
+find src -iname '*.lua' -or -iname '*.c' -or -iname '*.h' -not -path '*/internal/*' | while read -r f; do
     mkdir -p "$(dirname "$OUT/$f")"
     run "$LUA" ./tools/preprocessor.lua "$f" "$OUT/$f"
 done

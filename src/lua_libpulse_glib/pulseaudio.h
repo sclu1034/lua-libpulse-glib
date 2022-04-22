@@ -1,17 +1,15 @@
+/** Bindings for PulseAudio's libpulse, using the GLib Main Loop.
+ *
+ * @module pulseaudio
+ */
 #pragma once
 
-#include "lua.h"
 #include "lauxlib.h"
+#include "lua.h"
+
 #include <pulse/glib-mainloop.h>
 
-#ifdef _WIN32
-#define LUA_MOD_EXPORT __declspec(dllexport)
-#else
-#define LUA_MOD_EXPORT extern
-#endif
-
-
-#define LUA_PULSEAUDIO "pulseaudio"
+#define LUA_PULSEAUDIO  "pulseaudio"
 #define LUA_PA_REGISTRY "pulseaudio.registry"
 
 
@@ -20,25 +18,43 @@ typedef struct pulseaudio {
 } pulseaudio;
 
 
-int
-pulseaudio_new(lua_State*);
-int
-pulseaudio__gc(lua_State*);
-int
-pulseaudio__index(lua_State*);
-int
-pulseaudio_new_context(lua_State*);
+/** Creates a new PulseAudio object.
+ *
+ * @function new
+ * @return[type=PulseAudio]
+ */
+int pulseaudio_new(lua_State*);
 
 
-static const struct luaL_Reg pulseaudio_mt [] = {
-    {"__index", pulseaudio__index},
+int pulseaudio__gc(lua_State*);
+
+
+/// PulseAudio API
+/// @type PulseAudio
+
+
+/** Creates a new PulseAudio context
+ *
+ * @function context
+ * @tparam string name The application name.
+ * @return[type=Context]
+ */
+int pulseaudio_new_context(lua_State*);
+
+
+static const struct luaL_Reg pulseaudio_mt[] = {
     {"__gc", pulseaudio__gc},
-    {"context", pulseaudio_new_context},
-    {NULL, NULL}
+    { NULL,  NULL          }
 };
 
 
-static const struct luaL_Reg pulseaudio_lib [] = {
+static const struct luaL_Reg pulseaudio_f[] = {
+    {"context", pulseaudio_new_context},
+    { NULL,     NULL                  }
+};
+
+
+static const struct luaL_Reg pulseaudio_lib[] = {
     {"new", pulseaudio_new},
-    {NULL, NULL}
+    { NULL, NULL          }
 };
