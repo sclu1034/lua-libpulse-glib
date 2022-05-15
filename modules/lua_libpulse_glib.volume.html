@@ -18,11 +18,11 @@
         </ul>
         <p class="menu-label">Modules</p>
         <ul class="menu-list">
-            <li><a href="../modules/pulseaudio.context.html">pulseaudio.context</a></li>
-            <li><a href="../modules/pulseaudio.proplist.html">pulseaudio.proplist</a></li>
-            <li><a href="../modules/pulseaudio.html">pulseaudio</a></li>
+            <li><a href="../modules/lua_libpulse_glib.context.html">lua_libpulse_glib.context</a></li>
+            <li><a href="../modules/lua_libpulse_glib.proplist.html">lua_libpulse_glib.proplist</a></li>
+            <li><a href="../modules/lua_libpulse_glib.html">lua_libpulse_glib</a></li>
             <li>
-                <a class="is-active">pulseaudio.volume</a>
+                <a class="is-active">lua_libpulse_glib.volume</a>
                 <ul>
                     <li><a href="#toc">Table of contents</a></li>
                     <li><a href="#Static_Functions">Static Functions </a></li>
@@ -35,10 +35,10 @@
 <div id="content" class="content__wrapper">
     <section class="section section__module-description">
         <div class="container">
-            <h1 class="title is-1">Module <em>pulseaudio.volume</em></h1>
+            <h1 class="title is-1">Module <em>lua_libpulse_glib.volume</em></h1>
             <h3 class="subtitle is-3">Bindings for libpulse&rsquo;s <code>pa_cvolume</code>.</h3>
             <div class="content">
-                <p> Contrary to libpulse, methods that change the a <a href="../modules/pulseaudio.volume.html#Volume">Volume</a> object generally don&rsquo;t return anything, but
+                <p> Contrary to libpulse, methods that change the a <a href="../modules/lua_libpulse_glib.volume.html#Volume">Volume</a> object generally don&rsquo;t return anything, but
  instead change the instance itself.</p>
             </div>
         </div>
@@ -51,7 +51,7 @@
                 <tbody>
                     <tr>
                         <td class="name"><a href="#is_valid">is_valid(value)</a></td>
-                        <td class="summary">Checks whether a value is a valid <a href="../modules/pulseaudio.volume.html#Volume">Volume</a>.</td>
+                        <td class="summary">Checks whether a value is a valid <a href="../modules/lua_libpulse_glib.volume.html#Volume">Volume</a>.</td>
                     </tr>
                 </tbody>
             </table>
@@ -136,7 +136,7 @@
                         <strong>is_valid(value)</strong>
                     </div>
 
-                    <div class="block content section__item__description">Checks whether a value is a valid <a href="../modules/pulseaudio.volume.html#Volume">Volume</a>.</div>
+                    <div class="block content section__item__description">Checks whether a value is a valid <a href="../modules/lua_libpulse_glib.volume.html#Volume">Volume</a>.</div>
 
                     <div class="block content section__item__params">
                         <h4 class="title is-6">Parameters:</h4>
@@ -288,9 +288,9 @@
                     <div class="block content section__item__description">Divides the volume by the given value. </p>
 
 <p> The value to divide by may either be a scalar, that&rsquo;s applied to all channels,
- or another instance of <a href="../modules/pulseaudio.volume.html#Volume">Volume</a>, which would be applied channel by channel.</p>
+ or another instance of <a href="../modules/lua_libpulse_glib.volume.html#Volume">Volume</a>, which would be applied channel by channel.</p>
 
-<p> It is possible to divide a <a href="../modules/pulseaudio.volume.html#Volume">Volume</a> by itself.</p>
+<p> It is possible to divide a <a href="../modules/lua_libpulse_glib.volume.html#Volume">Volume</a> by itself.</p>
 
 <p> This is only valid for software volumes.</div>
 
@@ -306,7 +306,7 @@
                                     <div class="control">
                                         <div class="tags has-addons">
                                             <span class="tag is-dark">type</span>
-                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="../modules/pulseaudio.volume.html#Volume">Volume</a></span></span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="../modules/lua_libpulse_glib.volume.html#Volume">Volume</a></span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -491,9 +491,9 @@
                     <div class="block content section__item__description">Multiplies the volume by the given amount. </p>
 
 <p> The value to multiply with may either be a scalar, that&rsquo;s applied to all channels,
- or another instance of <a href="../modules/pulseaudio.volume.html#Volume">Volume</a>, which would be applied channel by channel.</p>
+ or another instance of <a href="../modules/lua_libpulse_glib.volume.html#Volume">Volume</a>, which would be applied channel by channel.</p>
 
-<p> It is possible to multiply a <a href="../modules/pulseaudio.volume.html#Volume">Volume</a> by itself.</p>
+<p> It is possible to multiply a <a href="../modules/lua_libpulse_glib.volume.html#Volume">Volume</a> by itself.</p>
 
 <p> This is only valid for software volumes.</div>
 
@@ -508,7 +508,7 @@
                                     <div class="control">
                                         <div class="tags has-addons">
                                             <span class="tag is-dark">type</span>
-                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="../modules/pulseaudio.volume.html#Volume">Volume</a></span></span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="../modules/lua_libpulse_glib.volume.html#Volume">Volume</a></span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -655,7 +655,7 @@
 
 <footer class="footer">
     <div class="content has-text-centered">
-        Generated by <a href="https://github/com/stevendonovan/LDoc">LDoc 1.4.6</a>, designed with <a href="https://github.com/jgthms/bulma">Bulma</a>. Last updated at 2022-05-15 20:53:32.
+        Generated by <a href="https://github/com/stevendonovan/LDoc">LDoc 1.4.6</a>, designed with <a href="https://github.com/jgthms/bulma">Bulma</a>. Last updated at 2022-05-15 21:08:52.
     </div>
 </footer>
 
