@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lua-libpulse-glib</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+
+<aside id="sidebar" class="has-background-white-ter">
+    <h1 class="title">lua-libpulse-glib</h1>
+    <nav class="menu">
+        <ul class="menu-list">
+            <li><a class="" href="../index.html">Index</a></li>
+        </ul>
+        <p class="menu-label">Modules</p>
+        <ul class="menu-list">
+            <li><a href="../modules/pulseaudio.context.html">pulseaudio.context</a></li>
+            <li>
+                <a class="is-active">pulseaudio.proplist</a>
+                <ul>
+                    <li><a href="#toc">Table of contents</a></li>
+                    <li><a href="#Tables">Tables</a></li>
+                    <li><a href="#Constructor_functions">Constructor functions </a></li>
+                    <li><a href="#Static_functions">Static functions </a></li>
+                    <li><a href="#Class_PropList">Class PropList </a></li>
+                </ul>
+            </li>
+            <li><a href="../modules/pulseaudio.html">pulseaudio</a></li>
+            <li><a href="../modules/pulseaudio.volume.html">pulseaudio.volume</a></li>
+        </ul>
+    </nav>
+</aside>
+<div id="content" class="content__wrapper">
+    <section class="section section__module-description">
+        <div class="container">
+            <h1 class="title is-1">Module <em>pulseaudio.proplist</em></h1>
+            <h3 class="subtitle is-3">Bindings for PulseAudio&rsquo;s property lists.</h3>
+            <div class="content">
+                <p> Basic operations are mapped to Lua table operations:</p>
+
+<ul>
+<li>get a value: <code>plist[key]</code></li>
+<li>set a value: <code>plist[key] = value</code></li>
+<li>get the size: <code>#plist</code></li>
+<li>get default string presentation: <code>tostring(plist)</code></li>
+<li>equality: <code>plist == other</code></li>
+</ul>
+
+
+<p> Additional operations are exposed as methods, as documented below.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section section__module-summary">
+        <div class="container">
+            <h2 id="toc" class="title is-3">Table of contents</h2>
+            <h3 class="title is-4"><a href="#Tables">Tables</a></h3>
+            <table class="table is-fullwidth is-striped">
+                <tbody>
+                    <tr>
+                        <td class="name"><a href="#pulseaudio.proplist">pulseaudio.proplist</a></td>
+                        <td class="summary">A list of well-known keys.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3 class="title is-4"><a href="#Constructor_functions">Constructor functions </a></h3>
+            <table class="table is-fullwidth is-striped">
+                <tbody>
+                    <tr>
+                        <td class="name"><a href="#new">new()</a></td>
+                        <td class="summary">Creates a new, empty property list.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#from_string">from_string(str)</a></td>
+                        <td class="summary">Parses a string into a <a href="../modules/pulseaudio.proplist.html#PropList">PropList</a>.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3 class="title is-4"><a href="#Static_functions">Static functions </a></h3>
+            <table class="table is-fullwidth is-striped">
+                <tbody>
+                    <tr>
+                        <td class="name"><a href="#is_key_valid">is_key_valid(key)</a></td>
+                        <td class="summary">Checks if the given string is a valid key.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3 class="title is-4"><a href="#Class_PropList">Class PropList </a></h3>
+            <table class="table is-fullwidth is-striped">
+                <tbody>
+                    <tr>
+                        <td class="name"><a href="#PropList:is_empty">PropList:is_empty()</a></td>
+                        <td class="summary">Checks if the proplist is empty.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#PropList:tostring_sep">PropList:tostring_sep()</a></td>
+                        <td class="summary">Creates a string representation with a custom separator.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#PropList:clear">PropList:clear()</a></td>
+                        <td class="summary">Removes all keys from the proplist</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#PropList:contains">PropList:contains(key)</a></td>
+                        <td class="summary">Checks if the proplist contains the given key.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#PropList:copy">PropList:copy()</a></td>
+                        <td class="summary">Duplicates the proplist.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="section section--Tables">
+        <div class="container">
+            <h2 class="title is-2" id="Tables"><a href="#Tables">Tables</a></h2>
+            <div class="section__content">
+                <div id="pulseaudio.proplist" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>pulseaudio.proplist</strong>
+                    </div>
+
+                    <div class="block content section__item__description"><p>A list of well-known keys.  These will likely be used by other consumers
+ of PulseAudio, so should be preferred for interoperatibility.</p>
+
+<p> See <a href="https://freedesktop.org/software/pulseaudio/doxygen/proplist_8h.html">proplist.h</a> for details on
+ these values.</p>
+
+<pre><code> local proplist = require("pulseaudio.proplist")
+ proplist.is_key_valid(proplist.MEDIA_NAME) -- true
+ print(proplist.MEDIA_NAME) -- media.name
+</code></pre>
+</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Fields:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MEDIA_NAME</em></span>
+                                    <span class="parameter__description">:&nbsp; media.name</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MEDIA_TITLE</em></span>
+                                    <span class="parameter__description">:&nbsp; media.title</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MEDIA_ARTIST</em></span>
+                                    <span class="parameter__description">:&nbsp; media.artist</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MEDIA_COPYRIGHT</em></span>
+                                    <span class="parameter__description">:&nbsp; media.copyright</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MEDIA_SOFTWARE</em></span>
+                                    <span class="parameter__description">:&nbsp; media.software</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MEDIA_LANGUAGE</em></span>
+                                    <span class="parameter__description">:&nbsp; media.language</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MEDIA_FILENAME</em></span>
+                                    <span class="parameter__description">:&nbsp; media.filename</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MEDIA_ICON</em></span>
+                                    <span class="parameter__description">:&nbsp; media.icon</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MEDIA_ICON_NAME</em></span>
+                                    <span class="parameter__description">:&nbsp; media.icon_name</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MEDIA_ROLE</em></span>
+                                    <span class="parameter__description">:&nbsp; media.role</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>FILTER_WANT</em></span>
+                                    <span class="parameter__description">:&nbsp; filter.want</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>FILTER_APPLY</em></span>
+                                    <span class="parameter__description">:&nbsp; filter.apply</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>FILTER_SUPPRESS</em></span>
+                                    <span class="parameter__description">:&nbsp; filter.suppress</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>EVENT_ID</em></span>
+                                    <span class="parameter__description">:&nbsp; event.id</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>EVENT_DESCRIPTION</em></span>
+                                    <span class="parameter__description">:&nbsp; event.description</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>EVENT_MOUSE_X</em></span>
+                                    <span class="parameter__description">:&nbsp; event.mouse.x</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>EVENT_MOUSE_Y</em></span>
+                                    <span class="parameter__description">:&nbsp; event.mouse.y</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>EVENT_MOUSE_HPOS</em></span>
+                                    <span class="parameter__description">:&nbsp; event.mouse.hpos</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>EVENT_MOUSE_VPOS</em></span>
+                                    <span class="parameter__description">:&nbsp; event.mouse.vpos</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>EVENT_MOUSE_BUTTON</em></span>
+                                    <span class="parameter__description">:&nbsp; event.mouse.button</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_NAME</em></span>
+                                    <span class="parameter__description">:&nbsp; window.name</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_ID</em></span>
+                                    <span class="parameter__description">:&nbsp; window.id</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_ICON</em></span>
+                                    <span class="parameter__description">:&nbsp; window.icon</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_ICON_NAME</em></span>
+                                    <span class="parameter__description">:&nbsp; window.icon_name</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_X</em></span>
+                                    <span class="parameter__description">:&nbsp; window.x</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_Y</em></span>
+                                    <span class="parameter__description">:&nbsp; window.y</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_WIDTH</em></span>
+                                    <span class="parameter__description">:&nbsp; window.width</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_HEIGHT</em></span>
+                                    <span class="parameter__description">:&nbsp; window.height</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_HPOS</em></span>
+                                    <span class="parameter__description">:&nbsp; window.hpos</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_VPOS</em></span>
+                                    <span class="parameter__description">:&nbsp; window.vpos</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_DESKTOP</em></span>
+                                    <span class="parameter__description">:&nbsp; window.desktop</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_X11_DISPLAY</em></span>
+                                    <span class="parameter__description">:&nbsp; window.x11.display</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_X11_SCREEN</em></span>
+                                    <span class="parameter__description">:&nbsp; window.x11.screen</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_X11_MONITOR</em></span>
+                                    <span class="parameter__description">:&nbsp; window.x11.monitor</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>WINDOW_X11_XID</em></span>
+                                    <span class="parameter__description">:&nbsp; window.x11.xid</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>APPLICATION_NAME</em></span>
+                                    <span class="parameter__description">:&nbsp; application.name</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>APPLICATION_ID</em></span>
+                                    <span class="parameter__description">:&nbsp; application.id</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>APPLICATION_VERSION</em></span>
+                                    <span class="parameter__description">:&nbsp; application.version</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>APPLICATION_ICON</em></span>
+                                    <span class="parameter__description">:&nbsp; application.icon</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>APPLICATION_ICON_NAME</em></span>
+                                    <span class="parameter__description">:&nbsp; application.icon_name</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>APPLICATION_LANGUAGE</em></span>
+                                    <span class="parameter__description">:&nbsp; application.language</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>APPLICATION_PROCESS_ID</em></span>
+                                    <span class="parameter__description">:&nbsp; application.process.id</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>APPLICATION_PROCESS_BINARY</em></span>
+                                    <span class="parameter__description">:&nbsp; application.process.binary</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>APPLICATION_PROCESS_USER</em></span>
+                                    <span class="parameter__description">:&nbsp; application.process.user</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>APPLICATION_PROCESS_HOST</em></span>
+                                    <span class="parameter__description">:&nbsp; application.process.host</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>APPLICATION_PROCESS_MACHINE_ID</em></span>
+                                    <span class="parameter__description">:&nbsp; application.process.machine_id</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>APPLICATION_PROCESS_SESSION_ID</em></span>
+                                    <span class="parameter__description">:&nbsp; application.process.session_id</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_STRING</em></span>
+                                    <span class="parameter__description">:&nbsp; device.string</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_API</em></span>
+                                    <span class="parameter__description">:&nbsp; device.api</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_DESCRIPTION</em></span>
+                                    <span class="parameter__description">:&nbsp; device.description</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_BUS_PATH</em></span>
+                                    <span class="parameter__description">:&nbsp; device.bus_path</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_SERIAL</em></span>
+                                    <span class="parameter__description">:&nbsp; device.serial</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_VENDOR_ID</em></span>
+                                    <span class="parameter__description">:&nbsp; device.vendor.id</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_VENDOR_NAME</em></span>
+                                    <span class="parameter__description">:&nbsp; device.vendor.name</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_PRODUCT_ID</em></span>
+                                    <span class="parameter__description">:&nbsp; device.product.id</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_PRODUCT_NAME</em></span>
+                                    <span class="parameter__description">:&nbsp; device.product.name</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_CLASS</em></span>
+                                    <span class="parameter__description">:&nbsp; device.class</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_FORM_FACTOR</em></span>
+                                    <span class="parameter__description">:&nbsp; device.form_factor</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_BUS</em></span>
+                                    <span class="parameter__description">:&nbsp; device.bus</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_ICON</em></span>
+                                    <span class="parameter__description">:&nbsp; device.icon</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_ICON_NAME</em></span>
+                                    <span class="parameter__description">:&nbsp; device.icon_name</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_ACCESS_MODE</em></span>
+                                    <span class="parameter__description">:&nbsp; device.access_mode</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_MASTER_DEVICE</em></span>
+                                    <span class="parameter__description">:&nbsp; device.master_device</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_BUFFERING_BUFFER_SIZE</em></span>
+                                    <span class="parameter__description">:&nbsp; device.buffering.buffer_size</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_BUFFERING_FRAGMENT_SIZE</em></span>
+                                    <span class="parameter__description">:&nbsp; device.buffering.fragment_size</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_PROFILE_NAME</em></span>
+                                    <span class="parameter__description">:&nbsp; device.profile.name</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_INTENDED_ROLES</em></span>
+                                    <span class="parameter__description">:&nbsp; device.intended_roles</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>DEVICE_PROFILE_DESCRIPTION</em></span>
+                                    <span class="parameter__description">:&nbsp; device.profile.description</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MODULE_AUTHOR</em></span>
+                                    <span class="parameter__description">:&nbsp; module.author</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MODULE_DESCRIPTION</em></span>
+                                    <span class="parameter__description">:&nbsp; module.description</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MODULE_USAGE</em></span>
+                                    <span class="parameter__description">:&nbsp; module.usage</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>MODULE_VERSION</em></span>
+                                    <span class="parameter__description">:&nbsp; module.version</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>FORMAT_SAMPLE_FORMAT</em></span>
+                                    <span class="parameter__description">:&nbsp; format.sample_format</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>FORMAT_RATE</em></span>
+                                    <span class="parameter__description">:&nbsp; format.rate</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>FORMAT_CHANNELS</em></span>
+                                    <span class="parameter__description">:&nbsp; format.channels</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>FORMAT_CHANNEL_MAP</em></span>
+                                    <span class="parameter__description">:&nbsp; format.channel_map</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>CONTEXT_FORCE_DISABLE_SHM</em></span>
+                                    <span class="parameter__description">:&nbsp; context.force.disable.shm</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>BLUETOOTH_CODEC</em></span>
+                                    <span class="parameter__description">:&nbsp; bluetooth.codec</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section section--Constructor functions ">
+        <div class="container">
+            <h2 class="title is-2" id="Constructor_functions"><a href="#Constructor_functions">Constructor functions </a></h2>
+            <div class="section__content">
+                <div id="new" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>new()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Creates a new, empty property list.</div>
+
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="../modules/pulseaudio.proplist.html#PropList">PropList</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="from_string" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>from_string(str)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Parses a string into a <a href="../modules/pulseaudio.proplist.html#PropList">PropList</a>.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>str</em></span>
+                                    <span class="parameter__description">:&nbsp; The string to parse.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="../modules/pulseaudio.proplist.html#PropList">PropList</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section section--Static functions ">
+        <div class="container">
+            <h2 class="title is-2" id="Static_functions"><a href="#Static_functions">Static functions </a></h2>
+            <div class="section__content">
+                <div id="is_key_valid" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>is_key_valid(key)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Checks if the given string is a valid key.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>key</em></span>
+                                    <span class="parameter__description">:&nbsp; The string to check.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section section--Class PropList ">
+        <div class="container">
+            <h2 class="title is-2" id="Class_PropList"><a href="#Class_PropList">Class PropList </a></h2>
+            <div class="content section__description">
+                Methods
+            </div>
+            <div class="section__content">
+                <div id="PropList:is_empty" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>PropList:is_empty()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Checks if the proplist is empty.</div>
+
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="PropList:tostring_sep" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>PropList:tostring_sep()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Creates a string representation with a custom separator.</div>
+
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="PropList:clear" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>PropList:clear()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Removes all keys from the proplist</div>
+
+                </div>
+                <div id="PropList:contains" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>PropList:contains(key)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Checks if the proplist contains the given key.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>key</em></span>
+                                    <span class="parameter__description">:&nbsp; The key to check for.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="PropList:copy" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>PropList:copy()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Duplicates the proplist.</div>
+
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="../modules/pulseaudio.proplist.html#pulseaudio.proplist">proplist</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        Generated by <a href="https://github/com/stevendonovan/LDoc">LDoc 1.4.6</a>, designed with <a href="https://github.com/jgthms/bulma">Bulma</a>. Last updated at 2022-05-15 20:53:32.
+    </div>
+</footer>
+
+</body>
+</html>

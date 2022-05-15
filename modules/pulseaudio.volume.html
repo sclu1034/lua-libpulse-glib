@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lua-libpulse-glib</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+
+<aside id="sidebar" class="has-background-white-ter">
+    <h1 class="title">lua-libpulse-glib</h1>
+    <nav class="menu">
+        <ul class="menu-list">
+            <li><a class="" href="../index.html">Index</a></li>
+        </ul>
+        <p class="menu-label">Modules</p>
+        <ul class="menu-list">
+            <li><a href="../modules/pulseaudio.context.html">pulseaudio.context</a></li>
+            <li><a href="../modules/pulseaudio.proplist.html">pulseaudio.proplist</a></li>
+            <li><a href="../modules/pulseaudio.html">pulseaudio</a></li>
+            <li>
+                <a class="is-active">pulseaudio.volume</a>
+                <ul>
+                    <li><a href="#toc">Table of contents</a></li>
+                    <li><a href="#Static_Functions">Static Functions </a></li>
+                    <li><a href="#Class_Volume">Class Volume </a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</aside>
+<div id="content" class="content__wrapper">
+    <section class="section section__module-description">
+        <div class="container">
+            <h1 class="title is-1">Module <em>pulseaudio.volume</em></h1>
+            <h3 class="subtitle is-3">Bindings for libpulse&rsquo;s <code>pa_cvolume</code>.</h3>
+            <div class="content">
+                <p> Contrary to libpulse, methods that change the a <a href="../modules/pulseaudio.volume.html#Volume">Volume</a> object generally don&rsquo;t return anything, but
+ instead change the instance itself.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section section__module-summary">
+        <div class="container">
+            <h2 id="toc" class="title is-3">Table of contents</h2>
+            <h3 class="title is-4"><a href="#Static_Functions">Static Functions </a></h3>
+            <table class="table is-fullwidth is-striped">
+                <tbody>
+                    <tr>
+                        <td class="name"><a href="#is_valid">is_valid(value)</a></td>
+                        <td class="summary">Checks whether a value is a valid <a href="../modules/pulseaudio.volume.html#Volume">Volume</a>.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3 class="title is-4"><a href="#Class_Volume">Class Volume </a></h3>
+            <table class="table is-fullwidth is-striped">
+                <tbody>
+                    <tr>
+                        <td class="name"><a href="#Volume:avg">Volume:avg()</a></td>
+                        <td class="summary">Returns the average volume over all channels.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:channels_equal_to">Volume:channels_equal_to(value)</a></td>
+                        <td class="summary">Returns <code>true</code> if the volume of all channels is equal to the specified value.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:dec">Volume:dec(value)</a></td>
+                        <td class="summary">Decreases the volume by the given amount.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:divide">Volume:divide(value)</a></td>
+                        <td class="summary">Divides the volume by the given value.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:get">Volume:get(index)</a></td>
+                        <td class="summary">Returns the volume of a single channel.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:inc">Volume:inc(value)</a></td>
+                        <td class="summary">Increases the volume by the given amount.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:is_muted">Volume:is_muted()</a></td>
+                        <td class="summary">Returns <code>true</code> when all channels are muted.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:is_norm">Volume:is_norm()</a></td>
+                        <td class="summary">Returns <code>true</code> when all channels are on normal level.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:max">Volume:max()</a></td>
+                        <td class="summary">Returns the maximum volume out of all channels.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:min">Volume:min()</a></td>
+                        <td class="summary">Returns the minimum volume out of all channels.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:multiply">Volume:multiply(value)</a></td>
+                        <td class="summary">Multiplies the volume by the given amount.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:mute">Volume:mute()</a></td>
+                        <td class="summary">Mutes all channels.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:reset">Volume:reset()</a></td>
+                        <td class="summary">Resets all channels to normal volume.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:scale">Volume:scale(value)</a></td>
+                        <td class="summary">Scales all channels to the passed amount.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:set">Volume:set(index, value)</a></td>
+                        <td class="summary">Sets a channel to the given value.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Volume:set_channels">Volume:set_channels(channels, value)</a></td>
+                        <td class="summary">Sets a number of channels to the given volume value.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="section section--Static Functions ">
+        <div class="container">
+            <h2 class="title is-2" id="Static_Functions"><a href="#Static_Functions">Static Functions </a></h2>
+            <div class="section__content">
+                <div id="is_valid" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>is_valid(value)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Checks whether a value is a valid <a href="../modules/pulseaudio.volume.html#Volume">Volume</a>.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>value</em></span>
+                                    <span class="parameter__description">:&nbsp; The value to check</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">any</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section section--Class Volume ">
+        <div class="container">
+            <h2 class="title is-2" id="Class_Volume"><a href="#Class_Volume">Class Volume </a></h2>
+            <div class="content section__description">
+                Volume
+            </div>
+            <div class="section__content">
+                <div id="Volume:avg" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:avg()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Returns the average volume over all channels.</div>
+
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Volume:channels_equal_to" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:channels_equal_to(value)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Returns <code>true</code> if the volume of all channels is equal to the specified value.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>value</em></span>
+                                    <span class="parameter__description">:&nbsp; Volume to compare to</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Volume:dec" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:dec(value)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Decreases the volume by the given amount. </p>
+
+<p> The proportions between the channels are kept.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>value</em></span>
+                                    <span class="parameter__description">:&nbsp; The value to decrease by.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div id="Volume:divide" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:divide(value)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Divides the volume by the given value. </p>
+
+<p> The value to divide by may either be a scalar, that&rsquo;s applied to all channels,
+ or another instance of <a href="../modules/pulseaudio.volume.html#Volume">Volume</a>, which would be applied channel by channel.</p>
+
+<p> It is possible to divide a <a href="../modules/pulseaudio.volume.html#Volume">Volume</a> by itself.</p>
+
+<p> This is only valid for software volumes.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>value</em></span>
+                                    <span class="parameter__description">:&nbsp; The volume to divide by.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="../modules/pulseaudio.volume.html#Volume">Volume</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div id="Volume:get" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:get(index)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Returns the volume of a single channel.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>index</em></span>
+                                    <span class="parameter__description">:&nbsp; The channel index</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="return-value__description">
+                                    <span>The channel&rsquo;s volume</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Volume:inc" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:inc(value)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Increases the volume by the given amount. </p>
+
+<p> The proportions between the channels are kept.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>value</em></span>
+                                    <span class="parameter__description">:&nbsp; the value to increase by.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div id="Volume:is_muted" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:is_muted()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Returns <code>true</code> when all channels are muted.</div>
+
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Volume:is_norm" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:is_norm()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Returns <code>true</code> when all channels are on normal level.</div>
+
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Volume:max" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:max()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Returns the maximum volume out of all channels.</div>
+
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Volume:min" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:min()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Returns the minimum volume out of all channels.</div>
+
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Volume:multiply" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:multiply(value)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Multiplies the volume by the given amount. </p>
+
+<p> The value to multiply with may either be a scalar, that&rsquo;s applied to all channels,
+ or another instance of <a href="../modules/pulseaudio.volume.html#Volume">Volume</a>, which would be applied channel by channel.</p>
+
+<p> It is possible to multiply a <a href="../modules/pulseaudio.volume.html#Volume">Volume</a> by itself.</p>
+
+<p> This is only valid for software volumes.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>value</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="../modules/pulseaudio.volume.html#Volume">Volume</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div id="Volume:mute" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:mute()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Mutes all channels.</div>
+
+                </div>
+                <div id="Volume:reset" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:reset()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Resets all channels to normal volume.</div>
+
+                </div>
+                <div id="Volume:scale" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:scale(value)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Scales all channels to the passed amount. </p>
+
+<p> This adjust all channel volumes so that the maximum between them equals the given value, while
+ keeping proportions between channels the same.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>value</em></span>
+                                    <span class="parameter__description">:&nbsp; The value to scale to.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div id="Volume:set" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:set(index, value)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Sets a channel to the given value.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>index</em></span>
+                                    <span class="parameter__description">:&nbsp; The channel index.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>value</em></span>
+                                    <span class="parameter__description">:&nbsp; The volume to set to.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div id="Volume:set_channels" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Volume:set_channels(channels, value)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Sets a number of channels to the given volume value.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>channels</em></span>
+                                    <span class="parameter__description">:&nbsp; The number of channels to set</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>value</em></span>
+                                    <span class="parameter__description">:&nbsp; The volume to set to.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        Generated by <a href="https://github/com/stevendonovan/LDoc">LDoc 1.4.6</a>, designed with <a href="https://github.com/jgthms/bulma">Bulma</a>. Last updated at 2022-05-15 20:53:32.
+    </div>
+</footer>
+
+</body>
+</html>

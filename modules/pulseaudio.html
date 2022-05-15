@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lua-libpulse-glib</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+
+<aside id="sidebar" class="has-background-white-ter">
+    <h1 class="title">lua-libpulse-glib</h1>
+    <nav class="menu">
+        <ul class="menu-list">
+            <li><a class="" href="../index.html">Index</a></li>
+        </ul>
+        <p class="menu-label">Modules</p>
+        <ul class="menu-list">
+            <li><a href="../modules/pulseaudio.context.html">pulseaudio.context</a></li>
+            <li><a href="../modules/pulseaudio.proplist.html">pulseaudio.proplist</a></li>
+            <li>
+                <a class="is-active">pulseaudio</a>
+                <ul>
+                    <li><a href="#toc">Table of contents</a></li>
+                    <li><a href="#Functions">Functions</a></li>
+                    <li><a href="#Class_PulseAudio">Class PulseAudio </a></li>
+                </ul>
+            </li>
+            <li><a href="../modules/pulseaudio.volume.html">pulseaudio.volume</a></li>
+        </ul>
+    </nav>
+</aside>
+<div id="content" class="content__wrapper">
+    <section class="section section__module-description">
+        <div class="container">
+            <h1 class="title is-1">Module <em>pulseaudio</em></h1>
+            <h3 class="subtitle is-3">Bindings for PulseAudio&rsquo;s libpulse, using the GLib Main Loop.</h3>
+            <div class="content">
+                <p>
+</p>
+            </div>
+        </div>
+    </section>
+    <section class="section section__module-summary">
+        <div class="container">
+            <h2 id="toc" class="title is-3">Table of contents</h2>
+            <h3 class="title is-4"><a href="#Functions">Functions</a></h3>
+            <table class="table is-fullwidth is-striped">
+                <tbody>
+                    <tr>
+                        <td class="name"><a href="#new">new()</a></td>
+                        <td class="summary">Creates a new PulseAudio object.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3 class="title is-4"><a href="#Class_PulseAudio">Class PulseAudio </a></h3>
+            <table class="table is-fullwidth is-striped">
+                <tbody>
+                    <tr>
+                        <td class="name"><a href="#PulseAudio:context">PulseAudio:context(name)</a></td>
+                        <td class="summary">Creates a new PulseAudio context</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="section section--Functions">
+        <div class="container">
+            <h2 class="title is-2" id="Functions"><a href="#Functions">Functions</a></h2>
+            <div class="section__content">
+                <div id="new" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>new()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Creates a new PulseAudio object.</div>
+
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="../modules/pulseaudio.html#PulseAudio">PulseAudio</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section section--Class PulseAudio ">
+        <div class="container">
+            <h2 class="title is-2" id="Class_PulseAudio"><a href="#Class_PulseAudio">Class PulseAudio </a></h2>
+            <div class="content section__description">
+                PulseAudio API
+            </div>
+            <div class="section__content">
+                <div id="PulseAudio:context" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>PulseAudio:context(name)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Creates a new PulseAudio context</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>name</em></span>
+                                    <span class="parameter__description">:&nbsp; The application name.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">Context</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        Generated by <a href="https://github/com/stevendonovan/LDoc">LDoc 1.4.6</a>, designed with <a href="https://github.com/jgthms/bulma">Bulma</a>. Last updated at 2022-05-15 20:53:32.
+    </div>
+</footer>
+
+</body>
+</html>

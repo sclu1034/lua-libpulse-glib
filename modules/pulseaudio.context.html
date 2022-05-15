@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lua-libpulse-glib</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+
+<aside id="sidebar" class="has-background-white-ter">
+    <h1 class="title">lua-libpulse-glib</h1>
+    <nav class="menu">
+        <ul class="menu-list">
+            <li><a class="" href="../index.html">Index</a></li>
+        </ul>
+        <p class="menu-label">Modules</p>
+        <ul class="menu-list">
+            <li>
+                <a class="is-active">pulseaudio.context</a>
+                <ul>
+                    <li><a href="#toc">Table of contents</a></li>
+                    <li><a href="#Class_Context">Class Context </a></li>
+                </ul>
+            </li>
+            <li><a href="../modules/pulseaudio.proplist.html">pulseaudio.proplist</a></li>
+            <li><a href="../modules/pulseaudio.html">pulseaudio</a></li>
+            <li><a href="../modules/pulseaudio.volume.html">pulseaudio.volume</a></li>
+        </ul>
+    </nav>
+</aside>
+<div id="content" class="content__wrapper">
+    <section class="section section__module-description">
+        <div class="container">
+            <h1 class="title is-1">Module <em>pulseaudio.context</em></h1>
+            <h3 class="subtitle is-3">Bindings for libpulse&rsquo;s connection context.</h3>
+            <div class="content">
+                <p> The connection <a href="../modules/pulseaudio.context.html#Context">Context</a> provides introspection calls to query state from the server and various commands to
+ change this state.</p>
+
+<p> In many cases, sinks and sources may be addressed by either their name or their numeric index.
+ Both can be queried using the <code>get_(sink|source)_info</code> or <code>get_(sink|source)s</code> calls.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section section__module-summary">
+        <div class="container">
+            <h2 id="toc" class="title is-3">Table of contents</h2>
+            <h3 class="title is-4"><a href="#Class_Context">Class Context </a></h3>
+            <table class="table is-fullwidth is-striped">
+                <tbody>
+                    <tr>
+                        <td class="name"><a href="#Context:connect">Context:connect([server_address=nil], cb)</a></td>
+                        <td class="summary">Connects the context to the given server address.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:disconnect">Context:disconnect()</a></td>
+                        <td class="summary">Disconnects from the server.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:get_server_info">Context:get_server_info(cb)</a></td>
+                        <td class="summary">Gets information about the server the context is connected to.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:get_sink_info">Context:get_sink_info(sink, cb)</a></td>
+                        <td class="summary">Gets information about the given sink.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:get_sinks">Context:get_sinks(cb)</a></td>
+                        <td class="summary">Gets information about all sinks.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_sink_volume">Context:set_sink_volume(sink, volume, cb)</a></td>
+                        <td class="summary">Sets the sink&rsquo;s volume to the given value.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_sink_mute">Context:set_sink_mute(sink, mute, cb)</a></td>
+                        <td class="summary">Sets the sink&rsquo;s mute state.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_sink_suspended">Context:set_sink_suspended(sink, suspended, cb)</a></td>
+                        <td class="summary">Sets the sink&rsquo;s suspended state.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:get_sink_input_info">Context:get_sink_input_info(sink, cb)</a></td>
+                        <td class="summary">Gets information about the given sink input.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:get_sink_inputs">Context:get_sink_inputs(cb)</a></td>
+                        <td class="summary">Gets information about all sink inputs.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_sink_suspended">Context:set_sink_suspended(The, sink, cb)</a></td>
+                        <td class="summary">Moves the sink input to a different name.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_sink_input_volume">Context:set_sink_input_volume(sink_input, volume, cb)</a></td>
+                        <td class="summary">Sets the sink input&rsquo;s volume to the given value.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_sink_input_mute">Context:set_sink_input_mute(sink_input, mute, cb)</a></td>
+                        <td class="summary">Sets the sink input&rsquo;s mute state.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:kill_sink_input">Context:kill_sink_input(sink_input, cb)</a></td>
+                        <td class="summary">Kills the sink input.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:get_source_info">Context:get_source_info(source, cb)</a></td>
+                        <td class="summary">Gets information about the given source.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:get_sources">Context:get_sources(cb)</a></td>
+                        <td class="summary">Gets information about all sources.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_source_volume">Context:set_source_volume(source, volume, cb)</a></td>
+                        <td class="summary">Sets the source&rsquo;s volume to the given value.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_source_mute">Context:set_source_mute(source, mute, cb)</a></td>
+                        <td class="summary">Sets the source&rsquo;s mute state.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_source_suspended">Context:set_source_suspended(source, suspended, cb)</a></td>
+                        <td class="summary">Sets the source&rsquo;s suspended state.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:get_source_output_info">Context:get_source_output_info(source_output, cb)</a></td>
+                        <td class="summary">Gets information about the given source output.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:get_source_outputs">Context:get_source_outputs(cb)</a></td>
+                        <td class="summary">Gets information about all source outputs.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_source_suspended">Context:set_source_suspended(The, source, cb)</a></td>
+                        <td class="summary">Moves the source output to a different name.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_source_output_volume">Context:set_source_output_volume(source_output, volume, cb)</a></td>
+                        <td class="summary">Sets the source output&rsquo;s volume to the given value.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_source_output_mute">Context:set_source_output_mute(source_output, mute, cb)</a></td>
+                        <td class="summary">Sets the source output&rsquo;s mute state.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:kill_source_output">Context:kill_source_output(source_output, cb)</a></td>
+                        <td class="summary">Kills the source output.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="section section--Class Context ">
+        <div class="container">
+            <h2 class="title is-2" id="Class_Context"><a href="#Class_Context">Class Context </a></h2>
+            <div class="content section__description">
+                Context
+            </div>
+            <div class="section__content">
+                <div id="Context:connect" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:connect([server_address=nil], cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Connects the context to the given server address. </p>
+
+<p> If the server address is <code>nil</code>, libpulse will attempt to connect to what it considers the default server.
+ In most cases, this is the local machine.</p>
+
+<p> The provided callback function will be registered as state callback function, and will be called whenever the
+ context&rsquo;s connection state changes.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>server_address</em></span>
+                                    <span class="parameter__description">:&nbsp; The server address.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">default</span>
+                                            <span class="tag parameter__default"><code>nil</code></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                    <span class="parameter__description">:&nbsp; The connection state callback.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="return-value__description">
+                                    <span>The error message</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="return-value__description">
+                                    <span>The state</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:disconnect" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:disconnect()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Disconnects from the server.</div>
+
+                </div>
+                <div id="Context:get_server_info" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:get_server_info(cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Gets information about the server the context is connected to. </p>
+
+<p> See <a href="https://freedesktop.org/software/pulseaudio/doxygen/structpa__server__info.html">pa_server_info</a>
+ for documentation on the return type.</p>
+
+<p> This will fail when the connection state is anything other than <code>READY</code>.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="return-value__description">
+                                    <span>string The error</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="return-value__description">
+                                    <span>table The server info.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:get_sink_info" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:get_sink_info(sink, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Gets information about the given sink. </p>
+
+<p> The sink may be indicated by either its name or its index.</p>
+
+<p> See <a href="https://freedesktop.org/software/pulseaudio/doxygen/structpa__sink__info.html">pa_sink_info</a>
+ for documentation on the return type.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>sink</em></span>
+                                    <span class="parameter__description">:&nbsp; The index or name of the sink to query.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:get_sinks" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:get_sinks(cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Gets information about all sinks. </p>
+
+<p> This returns the same information as <a href="../modules/pulseaudio.context.html#Context:get_sink_info">Context:get_sink_info</a> would have returned for every sink
+ that&rsquo;s currently registered at the server.</p>
+
+<p> See <a href="https://freedesktop.org/software/pulseaudio/doxygen/structpa__sink__info.html">pa_sink_info</a>
+ for documentation on the return type.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_sink_volume" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_sink_volume(sink, volume, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Sets the sink&rsquo;s volume to the given value. </p>
+
+<p> The sink may be indicated by either its name or its index.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>sink</em></span>
+                                    <span class="parameter__description">:&nbsp; The sink to update.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>volume</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">Volume</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_sink_mute" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_sink_mute(sink, mute, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Sets the sink&rsquo;s mute state. </p>
+
+<p> The sink may be indicated by either its name or its index.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>sink</em></span>
+                                    <span class="parameter__description">:&nbsp; The sink to update.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>mute</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_sink_suspended" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_sink_suspended(sink, suspended, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Sets the sink&rsquo;s suspended state. </p>
+
+<p> The sink may be indicated by either its name or its index.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>sink</em></span>
+                                    <span class="parameter__description">:&nbsp; The sink to update.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>suspended</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:get_sink_input_info" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:get_sink_input_info(sink, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Gets information about the given sink input. </p>
+
+<p> The sink input may be indicated by either its name or its index.</p>
+
+<p> See <a href="https://freedesktop.org/software/pulseaudio/doxygen/structpa__sink_input__info.html">pa_sink_input_info</a>
+ for documentation on the return type.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>sink</em></span>
+                                    <span class="parameter__description">:&nbsp; input The index or name of the sink input to query.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:get_sink_inputs" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:get_sink_inputs(cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Gets information about all sink inputs. </p>
+
+<p> This returns the same information as <a href="../modules/pulseaudio.context.html#Context:get_sink_input_info">Context:get_sink_input_info</a> would have returned for every sink input
+ that&rsquo;s currently registered at the server.</p>
+
+<p> See <a href="https://freedesktop.org/software/pulseaudio/doxygen/structpa__sink_input__info.html">pa_sink_input_info</a>
+ for documentation on the return type.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_sink_suspended" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_sink_suspended(The, sink, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Moves the sink input to a different name. </p>
+
+<p> The target sink may be indicated by either its name or its index.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>The</em></span>
+                                    <span class="parameter__description">:&nbsp; sink input to move.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>sink</em></span>
+                                    <span class="parameter__description">:&nbsp; The sink to update.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_sink_input_volume" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_sink_input_volume(sink_input, volume, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Sets the sink input&rsquo;s volume to the given value.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>sink_input</em></span>
+                                    <span class="parameter__description">:&nbsp; The sink input to update.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>volume</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">Volume</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_sink_input_mute" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_sink_input_mute(sink_input, mute, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Sets the sink input&rsquo;s mute state.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>sink_input</em></span>
+                                    <span class="parameter__description">:&nbsp; The sink input to update.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>mute</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:kill_sink_input" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:kill_sink_input(sink_input, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Kills the sink input.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>sink_input</em></span>
+                                    <span class="parameter__description">:&nbsp; The sink input to kill.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:get_source_info" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:get_source_info(source, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Gets information about the given source. </p>
+
+<p> The source may be indicated by either its name or its index.</p>
+
+<p> See <a href="https://freedesktop.org/software/pulseaudio/doxygen/structpa__source__info.html">pa_source_info</a>
+ for documentation on the return type.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>source</em></span>
+                                    <span class="parameter__description">:&nbsp; The index or name of the source to query.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:get_sources" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:get_sources(cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Gets information about all sources. </p>
+
+<p> This returns the same information as <a href="../modules/pulseaudio.context.html#Context:get_source_info">Context:get_source_info</a> would have returned for every source
+ that&rsquo;s currently registered at the server.</p>
+
+<p> See <a href="https://freedesktop.org/software/pulseaudio/doxygen/structpa__source__info.html">pa_source_info</a>
+ for documentation on the return type.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_source_volume" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_source_volume(source, volume, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Sets the source&rsquo;s volume to the given value. </p>
+
+<p> The source may be indicated by either its name or its index.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>source</em></span>
+                                    <span class="parameter__description">:&nbsp; The source to update.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>volume</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">Volume</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_source_mute" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_source_mute(source, mute, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Sets the source&rsquo;s mute state. </p>
+
+<p> The source may be indicated by either its name or its index.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>source</em></span>
+                                    <span class="parameter__description">:&nbsp; The source to update.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>mute</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_source_suspended" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_source_suspended(source, suspended, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Sets the source&rsquo;s suspended state. </p>
+
+<p> The source may be indicated by either its name or its index.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>source</em></span>
+                                    <span class="parameter__description">:&nbsp; The source to update.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>suspended</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:get_source_output_info" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:get_source_output_info(source_output, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Gets information about the given source output. </p>
+
+<p> See <a href="https://freedesktop.org/software/pulseaudio/doxygen/structpa__source_output__info.html">pa_source_output_info</a>
+ for documentation on the return type.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>source_output</em></span>
+                                    <span class="parameter__description">:&nbsp; The index of the source output to query.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:get_source_outputs" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:get_source_outputs(cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Gets information about all source outputs. </p>
+
+<p> This returns the same information as <a href="../modules/pulseaudio.context.html#Context:get_source_output_info">Context:get_source_output_info</a> would have returned for every source output
+ that&rsquo;s currently registered at the server.</p>
+
+<p> See <a href="https://freedesktop.org/software/pulseaudio/doxygen/structpa__source_output__info.html">pa_source_output_info</a>
+ for documentation on the return type.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_source_suspended" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_source_suspended(The, source, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Moves the source output to a different name. </p>
+
+<p> The target source may be indicated by either its name or its index.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>The</em></span>
+                                    <span class="parameter__description">:&nbsp; source output to move.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>source</em></span>
+                                    <span class="parameter__description">:&nbsp; The source to update.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_source_output_volume" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_source_output_volume(source_output, volume, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Sets the source output&rsquo;s volume to the given value.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>source_output</em></span>
+                                    <span class="parameter__description">:&nbsp; The source output to update.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>volume</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">Volume</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_source_output_mute" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_source_output_mute(source_output, mute, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Sets the source output&rsquo;s mute state.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>source_output</em></span>
+                                    <span class="parameter__description">:&nbsp; The source output to update.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>mute</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:kill_source_output" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:kill_source_output(source_output, cb)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Kills the source output.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>source_output</em></span>
+                                    <span class="parameter__description">:&nbsp; The source output to kill.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        Generated by <a href="https://github/com/stevendonovan/LDoc">LDoc 1.4.6</a>, designed with <a href="https://github.com/jgthms/bulma">Bulma</a>. Last updated at 2022-05-15 20:53:32.
+    </div>
+</footer>
+
+</body>
+</html>
