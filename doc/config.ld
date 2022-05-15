@@ -14,6 +14,28 @@ may either be just a boolean, for operations that don't return data, or the actu
 All numeric indices (such as sink or source indices) are adjusted to be 1-based in typical Lua fashion.
 This means that when comparing the output of calls like @{Context:get_sinks} to the output of tools like `pactl`,
 indices will be off by one.
+
+    local lgi = require("lgi")
+    local pulseaudio = require("lua_libpulse_glib")
+    local ppretty = require("pl.pretty")
+
+    local pa = pulseaudio.new()
+    local ctx = pa:context()
+
+    local loop = lgi.GLib.MainLoop.new()
+
+    ctx:connect(nil, function(state)
+        if state == 4 then
+            print("Connection is ready")
+            
+            ctx:get_sinks(function(sinks)
+                ppretty.dump(sinks)
+                loop:quit()
+            end)
+        end
+    end)
+
+    loop:run()
 ]]
 
 template = true
