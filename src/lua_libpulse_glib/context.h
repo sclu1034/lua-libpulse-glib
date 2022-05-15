@@ -6,7 +6,7 @@
  * In many cases, sinks and sources may be addressed by either their name or their numeric index.
  * Both can be queried using the `get_(sink|source)_info` or `get_(sink|source)s` calls.
  *
- * @module pulseaudio.context
+ * @module lua_libpulse_glib.context
  */
 #pragma once
 

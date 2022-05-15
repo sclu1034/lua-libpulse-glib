@@ -10,7 +10,7 @@
  *
  * Additional operations are exposed as methods, as documented below.
  *
- * @module pulseaudio.proplist
+ * @module lua_libpulse_glib.proplist
  */
 #pragma once
 

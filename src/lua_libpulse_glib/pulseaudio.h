@@ -1,6 +1,6 @@
 /** Bindings for PulseAudio's libpulse, using the GLib Main Loop.
  *
- * @module pulseaudio
+ * @module lua_libpulse_glib
  */
 #pragma once
 

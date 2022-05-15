@@ -3,7 +3,7 @@
  * Contrary to libpulse, methods that change the a @{Volume} object generally don't return anything, but
  * instead change the instance itself.
  *
- * @module pulseaudio.volume
+ * @module lua_libpulse_glib.volume
  */
 #ifndef volume_h_INCLUDED
 #define volume_h_INCLUDED
