@@ -6,7 +6,7 @@ source = {
 }
 
 description = {
-    summary = "An asynchronous high(er)-level API wrapper for LGI",
+    summary = "Lua bindings for PulseAudio's libpulse, using the GLib Main Loop.",
     homepage = "https://github.com/sclu1034/lua-libpulse-glib",
     license = "GPLv3"
 }
