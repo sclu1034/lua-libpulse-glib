@@ -31,15 +31,37 @@ image:{url-luarocks-badge}[LuaRocks Package, link={url-luarocks-link}]
 https://freedesktop.org/software/pulseaudio/doxygen/index.html[libpulse] bindings for use with a GLib MainLoop via
 https://github.com/lgi-devs/lgi/[LGI].
 
-== Installation
+== Quick Start
 
-_lua-libpulse-glib_ is available via LuaRocks:
+Install https://github.com/lgi-devs/lgi[lgi] and _lua_libpulse_glib_ from LuaRocks:
 
 [source,shell]
 ----
+luarocks install lgi
 luarocks install lua-libpulse-glib
 ----
 
-When cloning/vendoring the library, the following dependencies are required:
+[source,lua]
+----
+local lgi = require("lgi")
+local pulseaudio = require("lua_libpulse_glib")
+local ppretty = require("pl.pretty")
 
-* https://github.com/lgi-devs/lgi[lgi]
+local pa = pulseaudio.new()
+local ctx = pa:context()
+
+local loop = lgi.GLib.MainLoop.new()
+
+ctx:connect(nil, function(state)
+    if state == 4 then
+        print("Connection is ready")
+        
+        ctx:get_sinks(function(sinks)
+            ppretty.dump(sinks)
+            loop:quit()
+        end)
+    end
+end)
+
+loop:run()
+---
