@@ -63,6 +63,14 @@ int context_connect(lua_State*);
  */
 int context_disconnect(lua_State*);
 
+/** Returns the current connection state.
+ *
+ * @function Context:get_state
+ * @treturn number
+ */
+int context_get_state(lua_State*);
+
+
 /** Sets the default sink.
  *
  * @function Context:set_default_sink
@@ -452,6 +460,7 @@ static const struct luaL_Reg context_mt[] = {
 static const struct luaL_Reg context_f[] = {
     {"connect",                   context_connect                    },
     { "disconnect",               context_disconnect                 },
+    { "get_state",                context_get_state                  },
     { "set_default_sink",         context_set_default_sink           },
     { "set_default_source",       context_set_default_source         },
     { "get_server_info",          context_get_server_info            },
