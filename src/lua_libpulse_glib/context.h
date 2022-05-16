@@ -10,6 +10,8 @@
  */
 #pragma once
 
+#include "callback.h"
+
 #include <lauxlib.h>
 #include <lua.h>
 #include <pulse/context.h>
@@ -29,6 +31,7 @@ typedef struct lua_pa_context {
     pa_context* context;
     bool connected;
     context_state_callback_data* state_callback_data;
+    simple_callback_data* event_callback_data;
 } lua_pa_context;
 
 

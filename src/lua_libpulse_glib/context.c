@@ -1,13 +1,13 @@
 #include "context.h"
 
-#include "callback.h"
 #include "pulseaudio.h"
 
 #include <pulse/context.h>
 #include <pulse/error.h>
+#include <pulse/subscribe.h>
 
 
-/* Calls the user-provided callback with the updates state info.
+/* Calls the user-provided callback with the updated state info.
  */
 void context_state_callback(pa_context* c, void* userdata) {
     context_state_callback_data* data = (context_state_callback_data*) userdata;
@@ -26,6 +26,27 @@ void context_state_callback(pa_context* c, void* userdata) {
 }
 
 
+/* Calls the user-prodivded event callbacks.
+ */
+void context_event_callback(pa_context* c, pa_subscription_event_type_t event_type, uint32_t index, void* userdata) {
+    simple_callback_data* data = (simple_callback_data*) userdata;
+    lua_State* L = data->L;
+
+    luaL_checktype(L, 1, LUA_TFUNCTION);
+    luaL_checkudata(L, 2, LUA_PA_CONTEXT);
+
+    // `lua_call` will pop the function and arguments from the stack, but this callback will likely be called
+    // multiple times.
+    // To preseve the values for future calls, we need to duplicate them.
+    lua_pushvalue(L, 1);
+    lua_pushvalue(L, 2);
+    lua_pushinteger(L, event_type);
+    lua_pushinteger(L, index);
+
+    lua_call(L, 3, 0);
+}
+
+
 int context_new(lua_State* L, pa_mainloop_api* pa_api) {
     const char* name = luaL_checkstring(L, -1);
     // TODO: libpulse recommends using `new_with_proplist` instead. But I need to figure out that `proplist` first.
@@ -41,6 +62,7 @@ int context_new(lua_State* L, pa_mainloop_api* pa_api) {
     lgi_ctx->context = ctx;
     lgi_ctx->connected = FALSE;
     lgi_ctx->state_callback_data = (context_state_callback_data*) calloc(1, sizeof(struct context_state_callback_data));
+    lgi_ctx->event_callback_data = prepare_lua_callback(L);
 
     luaL_getmetatable(L, LUA_PA_CONTEXT);
     lua_setmetatable(L, -2);
@@ -65,6 +87,10 @@ int context__gc(lua_State* L) {
         lua_gettable(L, -2);
         luaL_unref(L, -1, ctx->state_callback_data->thread_ref);
         free(ctx->state_callback_data);
+    }
+
+    if (ctx->event_callback_data != NULL) {
+        free_lua_callback(ctx->event_callback_data);
     }
 
     pa_context_unref(ctx->context);
@@ -117,6 +143,7 @@ int context_connect(lua_State* L) {
     ctx->state_callback_data = data;
 
     pa_context_set_state_callback(ctx->context, context_state_callback, data);
+    pa_context_set_subscribe_callback(ctx->context, context_event_callback, ctx->event_callback_data);
 
     // TODO: Check if I need to create bindings for `pa_spawn_api`.
     int ret = pa_context_connect(ctx->context, server, flags, NULL);
@@ -176,6 +203,81 @@ int context_set_default_source(lua_State* L) {
         lua_call(L, 1, 0);
         return 0;
     }
+
+    return 0;
+}
+
+
+int context_subscribe(lua_State* L) {
+    lua_pa_context* ctx = luaL_checkudata(L, 1, LUA_PA_CONTEXT);
+    luaL_checktype(L, 2, LUA_TFUNCTION);
+
+    size_t pos = lua_objlen(ctx->event_callback_data->L, 1) + 1;
+    // Duplicate the callback function, so we can move it over to the other thread
+    lua_pushvalue(L, 2);
+    lua_xmove(L, ctx->event_callback_data->L, 1);
+    lua_rawseti(ctx->event_callback_data->L, 1, pos);
+
+    lua_pushinteger(L, pos);
+    return 1;
+}
+
+
+int context_unsubscribe(lua_State* L) {
+    lua_pa_context* ctx = luaL_checkudata(L, 1, LUA_PA_CONTEXT);
+    lua_State* thread_L = ctx->event_callback_data->L;
+    size_t pos = 0;
+    size_t len = lua_objlen(thread_L, 1);
+
+    if (len == 0) {
+        return 0;
+    }
+
+    switch (lua_type(L, 2)) {
+    case LUA_TNUMBER: {
+        pos = lua_tointeger(L, 2);
+        break;
+    }
+    case LUA_TFUNCTION: {
+        bool found = false;
+        size_t i = 0;
+
+        // Duplicate the function value, so we can move it other to the other thread for comparing
+        lua_pushvalue(L, -1);
+        lua_xmove(L, thread_L, 1);
+        int fn_index = lua_gettop(thread_L);
+
+        lua_pushnil(L);
+        while (lua_next(thread_L, 1) != 0) {
+            ++i;
+
+            if (lua_equal(thread_L, -1, fn_index) == 1) {
+                pos = i;
+                lua_pop(thread_L, 2);
+                break;
+            }
+
+            // Remove the value, but keep the key to continue iterating
+            lua_pop(thread_L, 1);
+        }
+
+        if (!found) {
+            return luaL_error(L, "couldn't find this function in the list of subscriptions");
+        }
+
+        break;
+    }
+    default: {
+        return luaL_argerror(L, 2, "expected number or function");
+    }
+    }
+
+    for (; pos < len; ++pos) {
+        lua_rawgeti(thread_L, 1, pos + 1);
+        lua_rawseti(thread_L, 1, pos);
+    }
+    lua_pushnil(thread_L);
+    lua_rawseti(thread_L, 1, len);
 
     return 0;
 }
