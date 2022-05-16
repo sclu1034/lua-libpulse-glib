@@ -60,6 +60,18 @@
                         <td class="summary">Disconnects from the server.</td>
                     </tr>
                     <tr>
+                        <td class="name"><a href="#Context:get_state">Context:get_state()</a></td>
+                        <td class="summary">Returns the current connection state.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_default_sink">Context:set_default_sink(sink)</a></td>
+                        <td class="summary">Sets the default sink.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:set_default_source">Context:set_default_source(source)</a></td>
+                        <td class="summary">Sets the default source.</td>
+                    </tr>
+                    <tr>
                         <td class="name"><a href="#Context:get_server_info">Context:get_server_info(cb)</a></td>
                         <td class="summary">Gets information about the server the context is connected to.</td>
                     </tr>
@@ -256,6 +268,143 @@
 
                     <div class="block content section__item__description">Disconnects from the server.</div>
 
+                </div>
+                <div id="Context:get_state" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:get_state()</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Returns the current connection state.</div>
+
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_default_sink" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_default_sink(sink)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Sets the default sink.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>sink</em></span>
+                                    <span class="parameter__description">:&nbsp; Name of the sink to set as default.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="return-value__description">
+                                    <span>error</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:set_default_source" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:set_default_source(source)</strong>
+                        <span class="tag">async</span>
+                    </div>
+
+                    <div class="block content section__item__description">Sets the default source.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>source</em></span>
+                                    <span class="parameter__description">:&nbsp; Name of the source to set as default.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Callback parameters:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="return-value__description">
+                                    <span>error</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="return-value">
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">boolean</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div id="Context:get_server_info" class="box section__item">
                     <div class="block section__item__title">
@@ -1962,7 +2111,7 @@
 
 <footer class="footer">
     <div class="content has-text-centered">
-        Generated by <a href="https://github/com/stevendonovan/LDoc">LDoc 1.4.6</a>, designed with <a href="https://github.com/jgthms/bulma">Bulma</a>. Last updated at 2022-05-15 21:14:23.
+        Generated by <a href="https://github/com/stevendonovan/LDoc">LDoc 1.4.6</a>, designed with <a href="https://github.com/jgthms/bulma">Bulma</a>. Last updated at 2022-05-16 14:22:04.
     </div>
 </footer>
 
