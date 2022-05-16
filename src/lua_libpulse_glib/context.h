@@ -61,7 +61,27 @@ int context_connect(lua_State*);
  *
  * @function Context:disconnect
  */
-int context_disconnect(lua_State* L);
+int context_disconnect(lua_State*);
+
+/** Sets the default sink.
+ *
+ * @function Context:set_default_sink
+ * @async
+ * @tparam string sink Name of the sink to set as default.
+ * @treturn[opt] string error
+ * @treturn boolean
+ */
+int context_set_default_sink(lua_State*);
+
+/** Sets the default source.
+ *
+ * @function Context:set_default_source
+ * @async
+ * @tparam string source Name of the source to set as default.
+ * @treturn[opt] string error
+ * @treturn boolean
+ */
+int context_set_default_source(lua_State*);
 
 
 /** Gets information about the server the context is connected to.
@@ -432,6 +452,8 @@ static const struct luaL_Reg context_mt[] = {
 static const struct luaL_Reg context_f[] = {
     {"connect",                   context_connect                    },
     { "disconnect",               context_disconnect                 },
+    { "set_default_sink",         context_set_default_sink           },
+    { "set_default_source",       context_set_default_source         },
     { "get_server_info",          context_get_server_info            },
     { "get_sinks",                context_get_sink_info_list         },
     { "get_sink_info",            context_get_sink_info              },
