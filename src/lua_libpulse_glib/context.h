@@ -32,6 +32,27 @@ typedef struct lua_pa_context {
 int context_new(lua_State*, pa_mainloop_api*);
 int context__gc(lua_State*);
 
+/// Callback Functions
+/// @section callbacks
+
+/** The callback signature for @{Context:subscribe}.
+ *
+ * See [here](https://freedesktop.org/software/pulseaudio/doxygen/subscribe.html) how to use the `event_type`
+ * parameter to determine the event that triggered the callback.
+ *
+ * @function event_callback
+ * @tparam Context context The context that the callback is subscribed to.
+ * @tparam number event_type A bitflag-ish value from libpulse that represents the event that caused the callback.
+ * @tparam number index
+ */
+
+/** The callback signature for @{Context:connect}.
+ *
+ * @function state_callback
+ * @tparam Context context The context that the callback is subscribed to.
+ * @tparam number state An enum that represents the current connection state.
+ */
+
 
 /// Context
 /// @type Context
@@ -66,6 +87,28 @@ int context_disconnect(lua_State*);
  * @treturn number
  */
 int context_get_state(lua_State*);
+
+/** Registers a callback function as event handler.
+ *
+ * This callback will be called whenever the server sends a suitable event.
+ *
+ * Any number of callbacks may be registered at the same time, and can be unscubscribed with
+ * @{Context:unsubscribe}, using the returned subscription ID.
+ *
+ * @function Context:subscribe
+ * @tparam function cb
+ * @treturn number The subscription ID.
+ */
+int context_subscribe(lua_State*);
+
+/** Removes an event handler subscription.
+ *
+ * Subscriptions may be removed either by their ID or by their callback function.
+ *
+ * @function Context:unsubscribe
+ * @tparam number|function handler The handler to remove.
+ */
+int context_unsubscribe(lua_State*);
 
 
 /** Sets the default sink.
@@ -457,6 +500,8 @@ static const struct luaL_Reg context_mt[] = {
 static const struct luaL_Reg context_f[] = {
     {"connect",                   context_connect                    },
     { "disconnect",               context_disconnect                 },
+    { "subscribe",                context_subscribe                  },
+    { "unsubscribe",              context_unsubscribe                },
     { "get_state",                context_get_state                  },
     { "set_default_sink",         context_set_default_sink           },
     { "set_default_source",       context_set_default_source         },
