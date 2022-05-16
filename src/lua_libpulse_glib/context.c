@@ -10,7 +10,7 @@
 /* Calls the user-provided callback with the updated state info.
  */
 void context_state_callback(pa_context* c, void* userdata) {
-    context_state_callback_data* data = (context_state_callback_data*) userdata;
+    simple_callback_data* data = (simple_callback_data*) userdata;
     luaL_checktype(data->L, 1, LUA_TFUNCTION);
     luaL_checkudata(data->L, 2, LUA_PA_CONTEXT);
     // `lua_call` will pop the function and arguments from the stack, but this callback will likely be called
@@ -61,7 +61,7 @@ int context_new(lua_State* L, pa_mainloop_api* pa_api) {
     }
     lgi_ctx->context = ctx;
     lgi_ctx->connected = FALSE;
-    lgi_ctx->state_callback_data = (context_state_callback_data*) calloc(1, sizeof(struct context_state_callback_data));
+    lgi_ctx->state_callback_data = prepare_lua_callback(L);
     lgi_ctx->event_callback_data = prepare_lua_callback(L);
 
     luaL_getmetatable(L, LUA_PA_CONTEXT);
@@ -80,13 +80,7 @@ int context__gc(lua_State* L) {
     }
 
     if (ctx->state_callback_data != NULL) {
-        lua_pushstring(L, LUA_PULSEAUDIO);
-        lua_rawget(L, LUA_REGISTRYINDEX);
-
-        lua_pushstring(L, LUA_PA_REGISTRY);
-        lua_gettable(L, -2);
-        luaL_unref(L, -1, ctx->state_callback_data->thread_ref);
-        free(ctx->state_callback_data);
+        free_lua_callback(ctx->state_callback_data);
     }
 
     if (ctx->event_callback_data != NULL) {
@@ -124,25 +118,7 @@ int context_connect(lua_State* L) {
     if (nargs > 3)
         flags = luaL_checkinteger(L, 4);
 
-    // Prepare a new thread to run the callback with
-    lua_pushstring(L, LUA_PULSEAUDIO);
-    lua_rawget(L, LUA_REGISTRYINDEX);
-    lua_pushstring(L, LUA_PA_REGISTRY);
-    lua_gettable(L, -2);
-    lua_State* thread = lua_newthread(L);
-    int thread_ref = luaL_ref(L, -2);
-
-    // Copy the callback function and arguments to the thread's stack
-    lua_pushvalue(L, 3);
-    lua_pushvalue(L, 1);
-    lua_xmove(L, thread, 2);
-
-    context_state_callback_data* data = calloc(1, sizeof(struct context_state_callback_data));
-    data->L = thread;
-    data->thread_ref = thread_ref;
-    ctx->state_callback_data = data;
-
-    pa_context_set_state_callback(ctx->context, context_state_callback, data);
+    pa_context_set_state_callback(ctx->context, context_state_callback, ctx->state_callback_data);
     pa_context_set_subscribe_callback(ctx->context, context_event_callback, ctx->event_callback_data);
 
     // TODO: Check if I need to create bindings for `pa_spawn_api`.

@@ -21,16 +21,10 @@
 #define LUA_PA_CONTEXT "pulseaudio.context"
 
 
-typedef struct context_state_callback_data {
-    lua_State* L;
-    int thread_ref;
-} context_state_callback_data;
-
-
 typedef struct lua_pa_context {
     pa_context* context;
     bool connected;
-    context_state_callback_data* state_callback_data;
+    simple_callback_data* state_callback_data;
     simple_callback_data* event_callback_data;
 } lua_pa_context;
 
