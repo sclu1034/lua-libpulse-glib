@@ -22,6 +22,7 @@
                 <a class="is-active">lua_libpulse_glib.context</a>
                 <ul>
                     <li><a href="#toc">Table of contents</a></li>
+                    <li><a href="#Callback_Functions">Callback Functions </a></li>
                     <li><a href="#Class_Context">Class Context </a></li>
                 </ul>
             </li>
@@ -48,6 +49,19 @@
     <section class="section section__module-summary">
         <div class="container">
             <h2 id="toc" class="title is-3">Table of contents</h2>
+            <h3 class="title is-4"><a href="#Callback_Functions">Callback Functions </a></h3>
+            <table class="table is-fullwidth is-striped">
+                <tbody>
+                    <tr>
+                        <td class="name"><a href="#event_callback">event_callback(context, event_type, index)</a></td>
+                        <td class="summary">The callback signature for <a href="../modules/lua_libpulse_glib.context.html#Context:subscribe">Context:subscribe</a>.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#state_callback">state_callback(context, state)</a></td>
+                        <td class="summary">The callback signature for <a href="../modules/lua_libpulse_glib.context.html#Context:connect">Context:connect</a>.</td>
+                    </tr>
+                </tbody>
+            </table>
             <h3 class="title is-4"><a href="#Class_Context">Class Context </a></h3>
             <table class="table is-fullwidth is-striped">
                 <tbody>
@@ -62,6 +76,14 @@
                     <tr>
                         <td class="name"><a href="#Context:get_state">Context:get_state()</a></td>
                         <td class="summary">Returns the current connection state.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:subscribe">Context:subscribe(cb)</a></td>
+                        <td class="summary">Registers a callback function as event handler.</td>
+                    </tr>
+                    <tr>
+                        <td class="name"><a href="#Context:unsubscribe">Context:unsubscribe(handler)</a></td>
+                        <td class="summary">Removes an event handler subscription.</td>
                     </tr>
                     <tr>
                         <td class="name"><a href="#Context:set_default_sink">Context:set_default_sink(sink)</a></td>
@@ -168,6 +190,113 @@
         </div>
     </section>
 
+    <section class="section section--Callback Functions ">
+        <div class="container">
+            <h2 class="title is-2" id="Callback_Functions"><a href="#Callback_Functions">Callback Functions </a></h2>
+            <div class="section__content">
+                <div id="event_callback" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>event_callback(context, event_type, index)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">The callback signature for <a href="../modules/lua_libpulse_glib.context.html#Context:subscribe">Context:subscribe</a>. </p>
+
+<p> See <a href="https://freedesktop.org/software/pulseaudio/doxygen/subscribe.html">here</a> how to use the <code>event_type</code>
+ parameter to determine the event that triggered the callback.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>context</em></span>
+                                    <span class="parameter__description">:&nbsp; The context that the callback is subscribed to.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><a class="type" href="../modules/lua_libpulse_glib.context.html#Context">Context</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>event_type</em></span>
+                                    <span class="parameter__description">:&nbsp; A bitflag-ish value from libpulse that represents the event that caused the callback.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>index</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div id="state_callback" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>state_callback(context, state)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">The callback signature for <a href="../modules/lua_libpulse_glib.context.html#Context:connect">Context:connect</a>.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>context</em></span>
+                                    <span class="parameter__description">:&nbsp; The context that the callback is subscribed to.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><a class="type" href="../modules/lua_libpulse_glib.context.html#Context">Context</a></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>state</em></span>
+                                    <span class="parameter__description">:&nbsp; An enum that represents the current connection state.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="section section--Class Context ">
         <div class="container">
             <h2 class="title is-2" id="Class_Context"><a href="#Class_Context">Class Context </a></h2>
@@ -289,6 +418,86 @@
                                     </div>
                                 </div>
                             </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:subscribe" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:subscribe(cb)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Registers a callback function as event handler. </p>
+
+<p> This callback will be called whenever the server sends a suitable event.</p>
+
+<p> Any number of callbacks may be registered at the same time, and can be unscubscribed with
+ <a href="../modules/lua_libpulse_glib.context.html#Context:unsubscribe">Context:unsubscribe</a>, using the returned subscription ID.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>cb</em></span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="block content section__item__returns">
+                        <h4 class="title is-6">Returns:</h4>
+                        <ul>
+                            <li class="return-value">
+                                <div class="return-value__description">
+                                    <span>The subscription ID.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag return-value__type"><span><span class="type">number</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="Context:unsubscribe" class="box section__item">
+                    <div class="block section__item__title">
+                        <strong>Context:unsubscribe(handler)</strong>
+                    </div>
+
+                    <div class="block content section__item__description">Removes an event handler subscription. </p>
+
+<p> Subscriptions may be removed either by their ID or by their callback function.</div>
+
+                    <div class="block content section__item__params">
+                        <h4 class="title is-6">Parameters:</h4>
+                        <ul>
+                            <li class="parameter">
+                                <div>
+                                    <span class="parameter__name"><em>handler</em></span>
+                                    <span class="parameter__description">:&nbsp; The handler to remove.</span>
+                                </div>
+                                <div class="field is-grouped is-grouped-multiline parameter__tags">
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag is-dark">type</span>
+                                            <span class="tag parameter__type"><span><span class="type">number</span> or <span class="type">function</span></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -2111,7 +2320,7 @@
 
 <footer class="footer">
     <div class="content has-text-centered">
-        Generated by <a href="https://github/com/stevendonovan/LDoc">LDoc 1.4.6</a>, designed with <a href="https://github.com/jgthms/bulma">Bulma</a>. Last updated at 2022-05-16 14:22:04.
+        Generated by <a href="https://github/com/stevendonovan/LDoc">LDoc 1.4.6</a>, designed with <a href="https://github.com/jgthms/bulma">Bulma</a>. Last updated at 2022-05-16 14:38:37.
     </div>
 </footer>
 
