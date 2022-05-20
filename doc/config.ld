@@ -20,7 +20,7 @@ indices will be off by one.
     local ppretty = require("pl.pretty")
 
     local pa = pulseaudio.new()
-    local ctx = pa:context()
+    local ctx = pa:context("My Test App")
 
     local loop = lgi.GLib.MainLoop.new()
 
