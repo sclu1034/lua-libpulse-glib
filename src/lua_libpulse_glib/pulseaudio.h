@@ -9,8 +9,8 @@
 
 #include <pulse/glib-mainloop.h>
 
-#define LUA_PULSEAUDIO  "pulseaudio"
-#define LUA_PA_REGISTRY "pulseaudio.registry"
+#define LUA_PULSEAUDIO  "lua_libpulse_glib"
+#define LUA_PA_REGISTRY "lua_libpulse_glib.registry"
 
 
 typedef struct pulseaudio {

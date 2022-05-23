@@ -12,7 +12,7 @@
 #include <lua.h>
 #include <pulse/volume.h>
 
-#define LUA_PA_VOLUME "pulseaudio.volume"
+#define LUA_PA_VOLUME "lua_libpulse_glib.volume"
 
 
 typedef struct volume_t {

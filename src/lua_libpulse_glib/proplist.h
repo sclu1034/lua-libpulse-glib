@@ -21,7 +21,7 @@
 #include <pulse/proplist.h>
 #include <stdbool.h>
 
-#define LUA_PA_PROPLIST "pulseaudio.proplist"
+#define LUA_PA_PROPLIST "lua_libpulse_glib.proplist"
 
 
 typedef struct proplist {

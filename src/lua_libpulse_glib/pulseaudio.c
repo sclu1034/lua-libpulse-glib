@@ -10,7 +10,6 @@
 #include <lualib.h>
 #include <pulse/glib-mainloop.h>
 
-#define LUA_PULSEAUDIO "pulseaudio"
 
 #if LUA_VERSION_NUM <= 501
 // Shamelessly copied from Lua 5.3 source.
