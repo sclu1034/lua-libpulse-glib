@@ -6,6 +6,12 @@
 #include <string.h>
 
 
+int volume_new(lua_State* L) {
+    pa_cvolume* cvol = volume_from_lua(L, 1);
+    return volume_to_lua(L, cvol);
+}
+
+
 int volume_to_lua(lua_State* L, const pa_cvolume* pa_volume) {
     volume_t* volume = lua_newuserdata(L, sizeof(volume_t));
     if (pa_volume == NULL) {

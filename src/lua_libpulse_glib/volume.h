@@ -47,6 +47,13 @@ int volume__newindex(lua_State*);
 /// Static Functions
 /// @section static
 
+/** Creates an instance of @{Volume}.
+ *
+ * @tparam table values An array of channel volumes.
+ * @treturn Volume
+ */
+int volume_new(lua_State*);
+
 
 /** Checks whether a value is a valid @{Volume}.
  *
@@ -228,8 +235,9 @@ static const struct luaL_Reg volume_mt[] = {
 
 
 static const struct luaL_Reg volume_lib[] = {
-    {"is_valid", volume_is_valid},
-    { NULL,      NULL           }
+    {"new",       volume_new     },
+    { "is_valid", volume_is_valid},
+    { NULL,       NULL           }
 };
 
 
