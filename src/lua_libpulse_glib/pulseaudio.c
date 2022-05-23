@@ -167,9 +167,27 @@ LUA_MOD_EXPORT int luaopen_lua_libpulse_glib(lua_State* L) {
     lua_settable(L, -3);
     lua_rawset(L, LUA_REGISTRYINDEX);
 
-    createlib_volume(L);
     createlib_context(L);
     createlib_proplist(L);
     createlib_pulseaudio(L);
     return 1;
 }
+
+
+LUA_MOD_EXPORT int luaopen_lua_libpulse_glib_volume(lua_State* L) {
+    luaL_newmetatable(L, LUA_PA_VOLUME);
+
+    lua_createtable(L, 0, sizeof volume_f / sizeof volume_f[0]);
+    luaL_setfuncs(L, volume_f, 0);
+    lua_setfield(L, -2, "__index");
+
+    luaL_setfuncs(L, volume_mt, 0);
+
+#if LUA_VERSION_NUM <= 501
+    luaL_register(L, LUA_PA_VOLUME, volume_lib);
+#else
+    luaL_newlib(L, volume_lib);
+#endif
+    return 1;
+}
+
