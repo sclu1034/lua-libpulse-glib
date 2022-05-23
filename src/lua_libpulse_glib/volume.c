@@ -27,7 +27,7 @@ int volume_to_lua(lua_State* L, const pa_cvolume* pa_volume) {
 // by GC. Makes this easier to use. But only do so after the current version has been committed
 // once, just so it stays available.
 pa_cvolume* volume_from_lua(lua_State* L, int index) {
-    switch (lua_type(L, 2)) {
+    switch (lua_type(L, index)) {
     case LUA_TTABLE: {
         uint8_t channels = (uint8_t) lua_objlen(L, index);
         if (channels > PA_CHANNELS_MAX) {
