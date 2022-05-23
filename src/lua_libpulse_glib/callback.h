@@ -27,16 +27,19 @@ typedef struct simple_callback_data {
 //
 // The returned callback data needs to be `free()`d at the end of the callback. `free_lua_callback`
 // handles both `free()` and `luaL_unref()`.
-simple_callback_data* prepare_lua_callback(lua_State* L);
+//
+// The first `int` is the index to a function on the stack. If this is non-zero, that value will
+// be copied to the thread's stack.
+simple_callback_data* prepare_lua_callback(lua_State*, int);
 
 
 // Removes the thread reference, to allow the thread to be garbage collected, and `free`s
 // the callback data.
-void free_lua_callback(simple_callback_data* data);
+void free_lua_callback(simple_callback_data*);
 
 
 // Simple implementation of `pa_context_success_cb_t` that calls a provided Lua function.
-void success_callback(pa_context* c, int success, void* userdata);
+void success_callback(pa_context*, int, void*);
 
 #endif // callback_h_INCLUDED
 

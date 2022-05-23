@@ -12,4 +12,5 @@ typedef struct luaU_enumfield {
     const char* value;
 } luaU_enumfield;
 
+
 #endif // lua_util_h_INCLUDED

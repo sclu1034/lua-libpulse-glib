@@ -34,7 +34,7 @@ int context_get_server_info(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 2);
 
     pa_operation* op = pa_context_get_server_info(ctx->context, server_info_callback, data);
     if (op == NULL) {
@@ -94,7 +94,7 @@ int context_get_sink_info_list(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 2);
     data->is_list = true;
     // Create the list to store infos in
     lua_newtable(data->L);
@@ -123,7 +123,7 @@ int context_get_sink_info_by_name(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 2);
 
     pa_operation* op = pa_context_get_sink_info_by_name(ctx->context, name, sink_info_callback, data);
     if (op == NULL) {
@@ -152,7 +152,7 @@ int context_get_sink_info_by_index(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 3);
 
     pa_operation* op = pa_context_get_sink_info_by_index(ctx->context, (uint32_t) index - 1, sink_info_callback, data);
     if (op == NULL) {
@@ -193,7 +193,7 @@ int context_set_sink_volume_by_name(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
     const char* name = luaL_checkstring(L, 2);
     pa_cvolume* volume = volume_from_lua(L, 3);
 
@@ -228,7 +228,7 @@ int context_set_sink_volume_by_index(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
     pa_cvolume* volume = volume_from_lua(L, 3);
 
     pa_operation* op =
@@ -277,7 +277,7 @@ int context_set_sink_mute_by_name(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op = pa_context_set_sink_mute_by_name(ctx->context, name, mute, success_callback, data);
     if (op == NULL) {
@@ -307,7 +307,7 @@ int context_set_sink_mute_by_index(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op =
         pa_context_set_sink_mute_by_index(ctx->context, (uint32_t) index - 1, mute, success_callback, data);
@@ -351,7 +351,7 @@ int context_set_sink_suspended_by_name(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op = pa_context_suspend_sink_by_name(ctx->context, name, suspended, success_callback, data);
     if (op == NULL) {
@@ -381,7 +381,7 @@ int context_set_sink_suspended_by_index(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op =
         pa_context_suspend_sink_by_index(ctx->context, (uint32_t) index - 1, suspended, success_callback, data);
@@ -467,7 +467,7 @@ int context_get_source_info_list(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 2);
     data->is_list = true;
     // Create the list to store infos in
     lua_newtable(data->L);
@@ -496,7 +496,7 @@ int context_get_source_info_by_name(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 3);
 
     pa_operation* op = pa_context_get_source_info_by_name(ctx->context, name, source_info_callback, data);
     if (op == NULL) {
@@ -525,7 +525,7 @@ int context_get_source_info_by_index(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 3);
 
     pa_operation* op =
         pa_context_get_source_info_by_index(ctx->context, (uint32_t) index - 1, source_info_callback, data);
@@ -567,7 +567,7 @@ int context_set_source_volume_by_name(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
     const char* name = luaL_checkstring(L, 2);
     pa_cvolume* volume = volume_from_lua(L, 3);
 
@@ -602,7 +602,7 @@ int context_set_source_volume_by_index(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
     pa_cvolume* volume = volume_from_lua(L, 3);
 
     pa_operation* op =
@@ -651,7 +651,7 @@ int context_set_source_mute_by_name(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op = pa_context_set_source_mute_by_name(ctx->context, name, mute, success_callback, data);
     if (op == NULL) {
@@ -681,7 +681,7 @@ int context_set_source_mute_by_index(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op =
         pa_context_set_source_mute_by_index(ctx->context, (uint32_t) index - 1, mute, success_callback, data);
@@ -725,7 +725,7 @@ int context_set_source_suspended_by_name(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op = pa_context_suspend_source_by_name(ctx->context, name, suspended, success_callback, data);
     if (op == NULL) {
@@ -755,7 +755,7 @@ int context_set_source_suspended_by_index(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op =
         pa_context_suspend_source_by_index(ctx->context, (uint32_t) index - 1, suspended, success_callback, data);
@@ -832,7 +832,7 @@ int context_get_sink_input_info_list(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 2);
     data->is_list = true;
     // Create the list to store infos in
     lua_newtable(data->L);
@@ -864,7 +864,7 @@ int context_get_sink_input_info(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 3);
 
     pa_operation* op =
         pa_context_get_sink_input_info(ctx->context, (uint32_t) index - 1, sink_input_info_callback, data);
@@ -915,7 +915,7 @@ int context_move_sink_input_by_index(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op = pa_context_move_sink_input_by_index(ctx->context,
                                                            (uint32_t) sink_input_index - 1,
@@ -954,7 +954,7 @@ int context_move_sink_input_by_name(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op = pa_context_move_sink_input_by_name(ctx->context,
                                                           (uint32_t) sink_input_index - 1,
@@ -985,7 +985,7 @@ int context_set_sink_input_volume(lua_State* L) {
     }
     pa_cvolume* volume = volume_from_lua(L, 3);
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op =
         pa_context_set_sink_input_volume(ctx->context, (uint32_t) index - 1, volume, success_callback, data);
@@ -1009,7 +1009,7 @@ int context_set_sink_input_mute(lua_State* L) {
     }
     bool mute = lua_toboolean(L, 3);
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op = pa_context_set_sink_input_mute(ctx->context, (uint32_t) index - 1, mute, success_callback, data);
     if (op == NULL) {
@@ -1032,7 +1032,7 @@ int context_kill_sink_input(lua_State* L) {
     }
 
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 3);
 
     pa_operation* op = pa_context_kill_sink_input(ctx->context, (uint32_t) index - 1, success_callback, data);
     if (op == NULL) {
@@ -1092,7 +1092,7 @@ int context_get_source_output_info_list(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 2);
     data->is_list = true;
     // Create the list to store infos in
     lua_newtable(data->L);
@@ -1124,7 +1124,7 @@ int context_get_source_output_info(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 3);
 
     pa_operation* op =
         pa_context_get_source_output_info(ctx->context, (uint32_t) index - 1, source_output_info_callback, data);
@@ -1175,7 +1175,7 @@ int context_move_source_output_by_index(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op = pa_context_move_source_output_by_index(ctx->context,
                                                               (uint32_t) source_output_index - 1,
@@ -1214,7 +1214,7 @@ int context_move_source_output_by_name(lua_State* L) {
         return 0;
     }
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op = pa_context_move_source_output_by_name(ctx->context,
                                                              (uint32_t) source_output_index - 1,
@@ -1245,7 +1245,7 @@ int context_set_source_output_volume(lua_State* L) {
     }
     pa_cvolume* volume = volume_from_lua(L, 3);
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op =
         pa_context_set_source_output_volume(ctx->context, (uint32_t) index - 1, volume, success_callback, data);
@@ -1269,7 +1269,7 @@ int context_set_source_output_mute(lua_State* L) {
     }
     bool mute = lua_toboolean(L, 3);
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 4);
 
     pa_operation* op =
         pa_context_set_source_output_mute(ctx->context, (uint32_t) index - 1, mute, success_callback, data);
@@ -1293,7 +1293,7 @@ int context_kill_source_output(lua_State* L) {
     }
 
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 3);
 
     pa_operation* op = pa_context_kill_source_output(ctx->context, (uint32_t) index - 1, success_callback, data);
     if (op == NULL) {

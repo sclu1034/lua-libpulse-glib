@@ -12,12 +12,12 @@
 void context_state_callback(pa_context* c, void* userdata) {
     simple_callback_data* data = (simple_callback_data*) userdata;
     luaL_checktype(data->L, 1, LUA_TFUNCTION);
-    luaL_checkudata(data->L, 2, LUA_PA_CONTEXT);
     // `lua_call` will pop the function and arguments from the stack, but this callback will likely be called
     // multiple times.
     // To preseve the values for future calls, we need to duplicate them.
     lua_pushvalue(data->L, 1);
-    lua_pushvalue(data->L, 2);
+    // This can't really fail, but for consistency, we keep the error value.
+    lua_pushnil(data->L);
 
     pa_context_state_t state = pa_context_get_state(c);
     lua_pushinteger(data->L, state);
@@ -61,8 +61,11 @@ int context_new(lua_State* L, pa_mainloop_api* pa_api) {
     }
     lgi_ctx->context = ctx;
     lgi_ctx->connected = FALSE;
-    lgi_ctx->state_callback_data = prepare_lua_callback(L);
-    lgi_ctx->event_callback_data = prepare_lua_callback(L);
+    lgi_ctx->state_callback_data = prepare_lua_callback(L, 0);
+    lgi_ctx->event_callback_data = prepare_lua_callback(L, 0);
+
+    // Create the table used to store the subscription callbacks.
+    lua_newtable(lgi_ctx->event_callback_data->L);
 
     luaL_getmetatable(L, LUA_PA_CONTEXT);
     lua_setmetatable(L, -2);
@@ -118,6 +121,11 @@ int context_connect(lua_State* L) {
     if (nargs > 3)
         flags = luaL_checkinteger(L, 4);
 
+    // Make sure the callback function is at a known position in the thread's stack
+    lua_settop(ctx->state_callback_data->L, 0);
+    lua_pushvalue(L, 3);
+    lua_xmove(L, ctx->state_callback_data->L, 1);
+
     pa_context_set_state_callback(ctx->context, context_state_callback, ctx->state_callback_data);
     pa_context_set_subscribe_callback(ctx->context, context_event_callback, ctx->event_callback_data);
 
@@ -150,7 +158,7 @@ int context_set_default_sink(lua_State* L) {
     lua_pa_context* ctx = luaL_checkudata(L, 1, LUA_PA_CONTEXT);
     const char* name = luaL_checkstring(L, 2);
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 3);
 
     pa_operation* op = pa_context_set_default_sink(ctx->context, name, success_callback, data);
     if (op == NULL) {
@@ -169,7 +177,7 @@ int context_set_default_source(lua_State* L) {
     lua_pa_context* ctx = luaL_checkudata(L, 1, LUA_PA_CONTEXT);
     const char* name = luaL_checkstring(L, 2);
 
-    simple_callback_data* data = prepare_lua_callback(L);
+    simple_callback_data* data = prepare_lua_callback(L, 3);
 
     pa_operation* op = pa_context_set_default_source(ctx->context, name, success_callback, data);
     if (op == NULL) {

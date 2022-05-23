@@ -3,7 +3,7 @@
 #include "pulseaudio.h"
 
 
-simple_callback_data* prepare_lua_callback(lua_State* L) {
+simple_callback_data* prepare_lua_callback(lua_State* L, int callback_index) {
     // Prepare a new thread to run the callback with
     lua_pushstring(L, LUA_PULSEAUDIO);
     lua_rawget(L, LUA_REGISTRYINDEX);
@@ -12,14 +12,20 @@ simple_callback_data* prepare_lua_callback(lua_State* L) {
     lua_State* thread = lua_newthread(L);
     int thread_ref = luaL_ref(L, -2);
 
-    // Copy the callback function to the thread's stack
-    lua_pushvalue(L, 2);
-    lua_xmove(L, thread, 1);
+    if (callback_index != 0) {
+        // Copy the callback function to the thread's stack
+        luaL_checktype(L, callback_index, LUA_TFUNCTION);
+        lua_pushvalue(L, callback_index);
+        lua_xmove(L, thread, 1);
+    }
 
     simple_callback_data* data = malloc(sizeof(struct simple_callback_data));
     data->L = thread;
     data->thread_ref = thread_ref;
     data->is_list = false;
+
+    // Clean up the intermediate data from creating the thread
+    lua_pop(L, 2);
 
     return data;
 }
