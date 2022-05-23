@@ -195,9 +195,23 @@ int context_set_sink_volume_by_name(lua_State* L) {
 
     simple_callback_data* data = prepare_lua_callback(L, 4);
     const char* name = luaL_checkstring(L, 2);
-    pa_cvolume* volume = volume_from_lua(L, 3);
 
-    pa_operation* op = pa_context_set_sink_volume_by_name(ctx->context, name, volume, success_callback, data);
+    if (lua_istable(L, 3)) {
+        pa_cvolume* volume = volume_from_lua(L, 3);
+        volume_to_lua(L, volume);
+        pa_xfree((void*) volume);
+    } else {
+        lua_pushvalue(L, 3);
+    }
+
+    volume_t* vol = luaL_checkudata(L, -1, LUA_PA_VOLUME);
+
+    // Move the volume userdata to the callback's thread. It needs to be kept alive
+    // until the callback has run.
+    lua_xmove(L, data->L, 1);
+
+    pa_operation* op = pa_context_set_sink_volume_by_name(ctx->context, name, &vol->inner, success_callback, data);
+
     if (op == NULL) {
         int error = pa_context_errno(ctx->context);
         lua_pushvalue(L, 2);
@@ -205,17 +219,13 @@ int context_set_sink_volume_by_name(lua_State* L) {
         lua_call(L, 1, 0);
     }
 
-    // TODO: Is this too early?
-    // It's probably fine when the operation failed, but in the other case, this might have to be moved to the callback.
-    // But once this is userdata, I can simply put it onto the callback's thread stack and have Lua garbage collect it.
-    pa_xfree((void*) volume);
-
     return 0;
 }
 
 
 int context_set_sink_volume_by_index(lua_State* L) {
     lua_pa_context* ctx = luaL_checkudata(L, 1, LUA_PA_CONTEXT);
+
     lua_Integer index = luaL_checkinteger(L, 2);
     if (index < 1) {
         return luaL_error(L, "Sink index out of bounds. Got %d", index);
@@ -229,21 +239,29 @@ int context_set_sink_volume_by_index(lua_State* L) {
     }
 
     simple_callback_data* data = prepare_lua_callback(L, 4);
-    pa_cvolume* volume = volume_from_lua(L, 3);
+
+    if (lua_istable(L, 3)) {
+        pa_cvolume* volume = volume_from_lua(L, 3);
+        volume_to_lua(L, volume);
+        pa_xfree((void*) volume);
+    } else {
+        lua_pushvalue(L, 3);
+    }
+
+    volume_t* vol = luaL_checkudata(L, -1, LUA_PA_VOLUME);
+
+    // Move the volume userdata to the callback's thread. It needs to be kept alive
+    // until the callback has run.
+    lua_xmove(L, data->L, 1);
 
     pa_operation* op =
-        pa_context_set_sink_volume_by_index(ctx->context, (uint32_t) index - 1, volume, success_callback, data);
+        pa_context_set_sink_volume_by_index(ctx->context, (uint32_t) index - 1, &vol->inner, success_callback, data);
     if (op == NULL) {
         int error = pa_context_errno(ctx->context);
         lua_pushvalue(L, 2);
         lua_pushfstring(L, "failed to set sink volume by index: %s", pa_strerror(error));
         lua_call(L, 1, 0);
     }
-
-    // TODO: Is this too early?
-    // It's probably fine when the operation failed, but in the other case, this might have to be moved to the callback.
-    // But once this is userdata, I can simply put it onto the callback's thread stack and have Lua garbage collect it.
-    pa_xfree((void*) volume);
 
     return 0;
 }
@@ -569,20 +587,28 @@ int context_set_source_volume_by_name(lua_State* L) {
 
     simple_callback_data* data = prepare_lua_callback(L, 4);
     const char* name = luaL_checkstring(L, 2);
-    pa_cvolume* volume = volume_from_lua(L, 3);
 
-    pa_operation* op = pa_context_set_source_volume_by_name(ctx->context, name, volume, success_callback, data);
+    if (lua_istable(L, 3)) {
+        pa_cvolume* volume = volume_from_lua(L, 3);
+        volume_to_lua(L, volume);
+        pa_xfree((void*) volume);
+    } else {
+        lua_pushvalue(L, 3);
+    }
+
+    volume_t* vol = luaL_checkudata(L, -1, LUA_PA_VOLUME);
+
+    // Move the volume userdata to the callback's thread. It needs to be kept alive
+    // until the callback has run.
+    lua_xmove(L, data->L, 1);
+
+    pa_operation* op = pa_context_set_source_volume_by_name(ctx->context, name, &vol->inner, success_callback, data);
     if (op == NULL) {
         int error = pa_context_errno(ctx->context);
         lua_pushvalue(L, 2);
         lua_pushfstring(L, "failed to set source volume by name: %s", pa_strerror(error));
         lua_call(L, 1, 0);
     }
-
-    // TODO: Is this too early?
-    // It's probably fine when the operation failed, but in the other case, this might have to be moved to the callback.
-    // But once this is userdata, I can simply put it onto the callback's thread stack and have Lua garbage collect it.
-    pa_xfree((void*) volume);
 
     return 0;
 }
@@ -603,21 +629,29 @@ int context_set_source_volume_by_index(lua_State* L) {
     }
 
     simple_callback_data* data = prepare_lua_callback(L, 4);
-    pa_cvolume* volume = volume_from_lua(L, 3);
+
+    if (lua_istable(L, 3)) {
+        pa_cvolume* volume = volume_from_lua(L, 3);
+        volume_to_lua(L, volume);
+        pa_xfree((void*) volume);
+    } else {
+        lua_pushvalue(L, 3);
+    }
+
+    volume_t* vol = luaL_checkudata(L, -1, LUA_PA_VOLUME);
+
+    // Move the volume userdata to the callback's thread. It needs to be kept alive
+    // until the callback has run.
+    lua_xmove(L, data->L, 1);
 
     pa_operation* op =
-        pa_context_set_source_volume_by_index(ctx->context, (uint32_t) index - 1, volume, success_callback, data);
+        pa_context_set_source_volume_by_index(ctx->context, (uint32_t) index - 1, &vol->inner, success_callback, data);
     if (op == NULL) {
         int error = pa_context_errno(ctx->context);
         lua_pushvalue(L, 2);
         lua_pushfstring(L, "failed to set source volume by index: %s", pa_strerror(error));
         lua_call(L, 1, 0);
     }
-
-    // TODO: Is this too early?
-    // It's probably fine when the operation failed, but in the other case, this might have to be moved to the callback.
-    // But once this is userdata, I can simply put it onto the callback's thread stack and have Lua garbage collect it.
-    pa_xfree((void*) volume);
 
     return 0;
 }
@@ -983,12 +1017,25 @@ int context_set_sink_input_volume(lua_State* L) {
     if (index < 1) {
         return luaL_error(L, "Sink input index out of bounds. Got %d", index);
     }
-    pa_cvolume* volume = volume_from_lua(L, 3);
 
     simple_callback_data* data = prepare_lua_callback(L, 4);
 
+    if (lua_istable(L, 3)) {
+        pa_cvolume* volume = volume_from_lua(L, 3);
+        volume_to_lua(L, volume);
+        pa_xfree((void*) volume);
+    } else {
+        lua_pushvalue(L, 3);
+    }
+
+    volume_t* vol = luaL_checkudata(L, -1, LUA_PA_VOLUME);
+
+    // Move the volume userdata to the callback's thread. It needs to be kept alive
+    // until the callback has run.
+    lua_xmove(L, data->L, 1);
+
     pa_operation* op =
-        pa_context_set_sink_input_volume(ctx->context, (uint32_t) index - 1, volume, success_callback, data);
+        pa_context_set_sink_input_volume(ctx->context, (uint32_t) index - 1, &vol->inner, success_callback, data);
     if (op == NULL) {
         int error = pa_context_errno(ctx->context);
         lua_pushvalue(L, 2);
@@ -1243,12 +1290,25 @@ int context_set_source_output_volume(lua_State* L) {
     if (index < 1) {
         return luaL_error(L, "Source output index out of bounds. Got %d", index);
     }
-    pa_cvolume* volume = volume_from_lua(L, 3);
 
     simple_callback_data* data = prepare_lua_callback(L, 4);
 
+    if (lua_istable(L, 3)) {
+        pa_cvolume* volume = volume_from_lua(L, 3);
+        volume_to_lua(L, volume);
+        pa_xfree((void*) volume);
+    } else {
+        lua_pushvalue(L, 3);
+    }
+
+    volume_t* vol = luaL_checkudata(L, -1, LUA_PA_VOLUME);
+
+    // Move the volume userdata to the callback's thread. It needs to be kept alive
+    // until the callback has run.
+    lua_xmove(L, data->L, 1);
+
     pa_operation* op =
-        pa_context_set_source_output_volume(ctx->context, (uint32_t) index - 1, volume, success_callback, data);
+        pa_context_set_source_output_volume(ctx->context, (uint32_t) index - 1, &vol->inner, success_callback, data);
     if (op == NULL) {
         int error = pa_context_errno(ctx->context);
         lua_pushvalue(L, 2);

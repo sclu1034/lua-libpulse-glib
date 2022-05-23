@@ -44,11 +44,16 @@ void free_lua_callback(simple_callback_data* data) {
     free(data);
 }
 
-
+// When preparing a thread for this callback, the function must be at index `1`.
+// Values on the stack after that will be ignored. This allows adding userdata and other values
+// for the purpose of memory management, to keep them alive until the callback has been called.
 void success_callback(pa_context* c, int success, void* userdata) {
     simple_callback_data* data = (simple_callback_data*) userdata;
     lua_State* L = data->L;
 
+    // Copy the callback function to a position from where it can be called.
+    // There may be other values on the stack for memory management.
+    lua_pushvalue(L, 1);
     lua_pushnil(L);
     lua_pushboolean(L, success);
     lua_call(L, 2, 0);
