@@ -31,6 +31,10 @@ image:{url-luarocks-badge}[LuaRocks Package, link={url-luarocks-link}]
 https://freedesktop.org/software/pulseaudio/doxygen/index.html[libpulse] bindings for use with a GLib MainLoop via
 https://github.com/lgi-devs/lgi/[LGI].
 
+The project is still in a development state. It hasn't been fully tested yet, and not all functions from libpulse
+have a corresponding binding yet.
+Please do report anything that's missing or not working correctly.
+
 == Quick Start
 
 Install https://github.com/lgi-devs/lgi[lgi] and _lua_libpulse_glib_ from LuaRocks:
@@ -38,7 +42,7 @@ Install https://github.com/lgi-devs/lgi[lgi] and _lua_libpulse_glib_ from LuaRoc
 [source,shell]
 ----
 luarocks install lgi
-luarocks install lua-libpulse-glib
+luarocks install --dev lua-libpulse-glib
 ----
 
 [source,lua]
