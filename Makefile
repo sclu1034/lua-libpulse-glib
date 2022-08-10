@@ -50,7 +50,7 @@ TEST_ARGS ?= --output=TAP
 CCFLAGS += -Werror
 endif
 
-.PHONY: clean doc doc-content doc-styles install test check rock
+.PHONY: clean doc doc-content doc-styles install uninstall test check rock
 
 build: $(TARGET)
 
@@ -94,6 +94,10 @@ install: build doc
 	@echo "\033[1;97mInstall documentation\033[0m"
 	install -vd $(INSTALL_DOCDIR)
 	cp -vr $(BUILD_DIR)/doc/* $(INSTALL_DOCDIR)
+
+uninstall:
+	rm $(INSTALL_LIBDIR)/$(PROJECT).so
+	rm -r $(INSTALL_DOCDIR)
 
 check:
 	@echo "Nothing to do"
