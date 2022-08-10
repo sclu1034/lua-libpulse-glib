@@ -84,7 +84,7 @@ clean:
 
 install: build doc
 	@echo "\033[1;97mInstall C library\033[0m"
-	xargs install -vDm 644 -t $(INSTALL_LIBDIR)/$(PROJECT) $(TARGET)
+	install -vDm 644 -t $(INSTALL_LIBDIR)/$(PROJECT) $(TARGET)
 
 	@echo "\033[1;97mInstall documentation\033[0m"
 	install -vd $(INSTALL_DOCDIR)
