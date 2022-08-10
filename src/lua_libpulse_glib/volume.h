@@ -49,6 +49,7 @@ int volume__newindex(lua_State*);
 
 /** Creates an instance of @{Volume}.
  *
+ * @function new
  * @tparam table values An array of channel volumes.
  * @treturn Volume
  */
