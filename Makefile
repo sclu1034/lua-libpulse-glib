@@ -63,18 +63,23 @@ $(TARGET): $(OBJS)
 	@echo "\033[1;97m$(CC) -o $@\033[0m"
 	@$(CC) $(LIBFLAG) -o $@ $(OBJS) $(LIBS)
 
-doc-styles:
-	@echo "\033[1;97mGenerate stylesheet\033[0m"
-	sass doc/ldoc.scss $(BUILD_DIR)/doc/ldoc.css
-
-doc-content:
+$(BUILD_DIR)/doc/index.html:
 	@mkdir -p "$(BUILD_DIR)/doc" "$(BUILD_DIR)/src"
 	@echo "\033[1;97mPreprocess sources\033[0m"
 	sh tools/process_docs.sh "$(BUILD_DIR)"
 	@echo "\033[1;97mGenerate documentation\033[0m"
 	ldoc --config=doc/config.ld --dir "$(BUILD_DIR)/doc" --project $(PROJECT) "$(BUILD_DIR)/src"
 
-doc: doc-content doc-styles
+$(BUILD_DIR)/doc/ldoc.css: doc/ldoc.scss
+	@mkdir -p "$(BUILD_DIR)/doc"
+	@echo "\033[1;97mGenerate stylesheet\033[0m"
+	sass doc/ldoc.scss $(BUILD_DIR)/doc/ldoc.css
+
+doc-styles: $(BUILD_DIR)/doc/ldoc.css
+
+doc-content: $(BUILD_DIR)/doc/index.html
+
+doc: doc-styles doc-content
 ifdef CI
 	touch "$(BUILD_DIR)/doc/.nojekyll"
 endif
@@ -84,7 +89,7 @@ clean:
 
 install: build doc
 	@echo "\033[1;97mInstall C library\033[0m"
-	install -vDm 644 -t $(INSTALL_LIBDIR)/$(PROJECT) $(TARGET)
+	install -vDm 644 -t $(INSTALL_LIBDIR) $(TARGET)
 
 	@echo "\033[1;97mInstall documentation\033[0m"
 	install -vd $(INSTALL_DOCDIR)
