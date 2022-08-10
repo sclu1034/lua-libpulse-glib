@@ -35,7 +35,7 @@ int volume_to_lua(lua_State* L, const pa_cvolume* pa_volume) {
 pa_cvolume* volume_from_lua(lua_State* L, int index) {
     switch (lua_type(L, index)) {
     case LUA_TTABLE: {
-        uint8_t channels = (uint8_t) lua_objlen(L, index);
+        uint8_t channels = (uint8_t) lua_rawlen(L, index);
         if (channels > PA_CHANNELS_MAX) {
             channels = PA_CHANNELS_MAX;
         }
@@ -82,7 +82,7 @@ int volume__eq(lua_State* L) {
 
 int volume__index(lua_State* L) {
     volume_t* volume = luaL_checkudata(L, 1, LUA_PA_VOLUME);
-    int index = luaL_checkint(L, 2);
+    int index = (int) luaL_checkinteger(L, 2);
     luaL_argcheck(L, index >= 1 && index <= (PA_CHANNELS_MAX + 1), 2, "channel index out of bounds");
     lua_pushinteger(L, volume->inner.values[index - 1]);
     return 1;

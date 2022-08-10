@@ -1,6 +1,7 @@
 #include "context.h"
 
 #include "pulseaudio.h"
+#include "lua_util.h"
 
 #include <pulse/context.h>
 #include <pulse/error.h>
@@ -196,7 +197,7 @@ int context_subscribe(lua_State* L) {
     lua_pa_context* ctx = luaL_checkudata(L, 1, LUA_PA_CONTEXT);
     luaL_checktype(L, 2, LUA_TFUNCTION);
 
-    size_t pos = lua_objlen(ctx->event_callback_data->L, 1) + 1;
+    size_t pos = lua_rawlen(ctx->event_callback_data->L, 1) + 1;
     // Duplicate the callback function, so we can move it over to the other thread
     lua_pushvalue(L, 2);
     lua_xmove(L, ctx->event_callback_data->L, 1);
@@ -211,7 +212,7 @@ int context_unsubscribe(lua_State* L) {
     lua_pa_context* ctx = luaL_checkudata(L, 1, LUA_PA_CONTEXT);
     lua_State* thread_L = ctx->event_callback_data->L;
     size_t pos = 0;
-    size_t len = lua_objlen(thread_L, 1);
+    size_t len = lua_rawlen(thread_L, 1);
 
     if (len == 0) {
         return 0;

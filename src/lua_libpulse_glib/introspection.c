@@ -55,7 +55,7 @@ void sink_info_callback(pa_context* c, const pa_sink_info* info, int eol, void* 
 
     if (data->is_list) {
         if (!eol) {
-            int i = lua_objlen(L, 2);
+            int i = lua_rawlen(L, 2);
             lua_pushinteger(L, i + 1);
             sink_info_to_lua(L, info);
             lua_settable(L, 2);
@@ -446,7 +446,7 @@ void source_info_callback(pa_context* c, const pa_source_info* info, int eol, vo
 
     if (data->is_list) {
         if (!eol) {
-            int i = lua_objlen(L, 2);
+            int i = lua_rawlen(L, 2);
             lua_pushinteger(L, i + 1);
             source_info_to_lua(L, info);
             lua_settable(L, 2);
@@ -827,7 +827,7 @@ void sink_input_info_callback(pa_context* c, const pa_sink_input_info* info, int
 
     if (data->is_list) {
         if (!eol) {
-            int i = lua_objlen(L, 2);
+            int i = lua_rawlen(L, 2);
             lua_pushinteger(L, i + 1);
             sink_input_info_to_lua(L, info);
             lua_settable(L, 2);
@@ -1100,7 +1100,7 @@ void source_output_info_callback(pa_context* c, const pa_source_output_info* inf
 
     if (data->is_list) {
         if (!eol) {
-            int i = lua_objlen(L, 2);
+            int i = lua_rawlen(L, 2);
             lua_pushinteger(L, i + 1);
             source_output_info_to_lua(L, info);
             lua_settable(L, 2);
