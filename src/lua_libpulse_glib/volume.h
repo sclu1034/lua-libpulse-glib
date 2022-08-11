@@ -55,7 +55,6 @@ int volume__newindex(lua_State*);
  */
 int volume_new(lua_State*);
 
-
 /** Checks whether a value is a valid @{Volume}.
  *
  * @function is_valid
@@ -63,6 +62,53 @@ int volume_new(lua_State*);
  * @treturn boolean
  */
 int volume_is_valid(lua_State*);
+
+/** Converts a decibel value to an integer volume value.
+ *
+ * This is only valid for software volumes. It does not operate
+ * on instances of @{Volume}.
+ *
+ * @function from_dB
+ * @tparam number value
+ * @treturn number
+ */
+int volume_from_dB(lua_State*);
+
+/** Converts an integer volume value to a decibel value.
+ *
+ * This is only valid for software volumes. It does not operate
+ * on instances of @{Volume}.
+ *
+ * @function to_dB
+ * @tparam number value
+ * @treturn number
+ */
+int volume_to_dB(lua_State*);
+
+/** Converts a linear factor to an integer volume value.
+ *
+ * `0.0` and less is muted, `1.0` is normal volume.
+ *
+ * This is only valid for software volumes. It does not operate
+ * on instances of @{Volume}.
+ *
+ * @function from_linear
+ * @tparam number value
+ * @treturn number
+ */
+int volume_from_linear(lua_State*);
+
+/** Converts an integer volume value to linear factor.
+ *
+ * This is only valid for software volumes. It does not operate
+ * on instances of @{Volume}.
+ *
+ * @function to_linear
+ * @tparam number value
+ * @treturn number
+ */
+int volume_to_linear(lua_State*);
+
 
 /// Volume
 /// @type Volume
@@ -236,9 +282,13 @@ static const struct luaL_Reg volume_mt[] = {
 
 
 static const struct luaL_Reg volume_lib[] = {
-    {"new",       volume_new     },
-    { "is_valid", volume_is_valid},
-    { NULL,       NULL           }
+    {"new",          volume_new        },
+    { "from_dB",     volume_from_dB    },
+    { "to_dB",       volume_to_dB      },
+    { "from_linear", volume_from_linear},
+    { "to_linear",   volume_to_linear  },
+    { "is_valid",    volume_is_valid   },
+    { NULL,          NULL              }
 };
 
 

@@ -1,5 +1,7 @@
 #include "volume.h"
 
+#include "lua_util.h"
+
 #include <pulse/xmalloc.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -310,4 +312,32 @@ int volume_divide(lua_State* L) {
         return luaL_argerror(L, 2, "expected number or userdata");
     }
     }
+}
+
+
+int volume_from_dB(lua_State* L) {
+    double value = (double) luaL_checknumber(L, 1);
+    lua_pushinteger(L, pa_sw_volume_from_dB(value));
+    return 1;
+}
+
+
+int volume_to_dB(lua_State* L) {
+    pa_volume_t value = luaL_checkinteger(L, 1);
+    lua_pushnumber(L, pa_sw_volume_to_dB(value));
+    return 1;
+}
+
+
+int volume_from_linear(lua_State* L) {
+    double value = (double) luaL_checknumber(L, 1);
+    lua_pushinteger(L, pa_sw_volume_from_linear(value));
+    return 1;
+}
+
+
+int volume_to_linear(lua_State* L) {
+    pa_volume_t value = luaL_checkinteger(L, 1);
+    lua_pushnumber(L, pa_sw_volume_to_linear(value));
+    return 1;
 }
