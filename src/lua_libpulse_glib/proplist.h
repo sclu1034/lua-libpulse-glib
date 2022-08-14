@@ -310,7 +310,9 @@ static const struct luaU_enumfield proplist_enum[] = {
     { "FORMAT_RATE",                    PA_PROP_FORMAT_RATE                   },
     { "FORMAT_CHANNELS",                PA_PROP_FORMAT_CHANNELS               },
     { "FORMAT_CHANNEL_MAP",             PA_PROP_FORMAT_CHANNEL_MAP            },
+#if PA_CHECK_VERSION(15, 0, 0)
     { "CONTEXT_FORCE_DISABLE_SHM",      PA_PROP_CONTEXT_FORCE_DISABLE_SHM     },
     { "BLUETOOTH_CODEC",                PA_PROP_BLUETOOTH_CODEC               },
+#endif
     { NULL,                             NULL                                  }
 };

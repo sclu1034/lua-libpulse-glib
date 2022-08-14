@@ -5,7 +5,7 @@ platform: linux
 image_resource:
   type: registry-image
   source:
-    repository: registry.local:5000/lua-clib-x11
+    repository: registry.local:5000/lua-clib-pulse
     tag: latest
 
 inputs:
