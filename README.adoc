@@ -14,8 +14,8 @@ endif::[]
 :note-caption: :paperclip:
 :tip-caption: :bulb:
 :warning-caption: :warning:
-:url-ci: https://ci.sclu1034.dev/teams/main/pipelines/lgi-libpulse-glib
-:url-ci-badge: https://ci.sclu1034.dev/api/v1/teams/main/pipelines/lgi-libpulse-glib/badge
+:url-ci: https://ci.sclu1034.dev/teams/main/pipelines/lua-libpulse-glib
+:url-ci-badge: https://ci.sclu1034.dev/api/v1/teams/main/pipelines/lua-libpulse-glib/badge
 :url-license-badge: https://img.shields.io/badge/license-GPLv3-brightgreen?style=flat-square
 :url-luarocks-badge: https://img.shields.io/luarocks/v/sclu1034/lua-libpulse-glib?style=flat-square
 :url-luarocks-link: https://luarocks.org/modules/sclu1034/lua-libpulse-glib
