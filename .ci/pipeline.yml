@@ -5,7 +5,7 @@ resources:
   icon: github
   source:
     uri: https://git.sclu1034.dev/lucas/lua-libpulse-glib
-    branch: ci
+    branch: master
 
 jobs:
 - name: test
