@@ -5,7 +5,6 @@ ifdef::env-github,env-browser[]
 :toc: macro
 :toclevels: 1
 endif::[]
-ifdef::env-github[]
 :branch: master
 :status:
 :outfilesuffix: .adoc
@@ -15,16 +14,15 @@ ifdef::env-github[]
 :note-caption: :paperclip:
 :tip-caption: :bulb:
 :warning-caption: :warning:
-endif::[]
-:url-ci-github: https://github.com/sclu1034/lua-libpulse-glib/actions
-:url-ci-badge-github: https://img.shields.io/github/workflow/status/sclu1034/lua-libpulse-glib/Lint%20&%20Test?style=flat-square
+:url-ci: https://ci.sclu1034.dev/teams/main/pipelines/lgi-libpulse-glib
+:url-ci-badge: https://ci.sclu1034.dev/api/v1/teams/main/pipelines/lgi-libpulse-glib/badge
 :url-license-badge: https://img.shields.io/badge/license-GPLv3-brightgreen?style=flat-square
 :url-luarocks-badge: https://img.shields.io/luarocks/v/sclu1034/lua-libpulse-glib?style=flat-square
 :url-luarocks-link: https://luarocks.org/modules/sclu1034/lua-libpulse-glib
 
 image:{url-license-badge}[License]
 ifdef::status[]
-image:{url-ci-badge-github}[Build Status (GitHub Actions), link={url-ci-github}]
+image:{url-ci-badge}[Build Status (Concourse CI), link={url-ci}]
 endif::[]
 image:{url-luarocks-badge}[LuaRocks Package, link={url-luarocks-link}]
 

@@ -1,0 +1,53 @@
+---
+resources:
+- name: repo
+  type: git
+  icon: github
+  source:
+    uri: https://git.sclu1034.dev/lucas/lgi-libpulse-glib.git
+    branch: ci
+
+jobs:
+- name: test
+  plan:
+    - get: repo
+      trigger: true
+    - in_parallel:
+      - task: run-test-5.1
+        file: repo/.ci/test.yml
+        vars:
+          lua-version: 5.1
+      - task: run-test-5.2
+        file: repo/.ci/test.yml
+        vars:
+          lua-version: 5.2
+      - task: run-test-5.3
+        file: repo/.ci/test.yml
+        vars:
+          lua-version: 5.3
+      - task: run-test-5.4
+        file: repo/.ci/test.yml
+        vars:
+          lua-version: 5.4
+
+- name: rock
+  plan:
+    - get: repo
+      trigger: true
+    - in_parallel:
+      - task: run-rock-5.1
+        file: repo/.ci/rock.yml
+        vars:
+          lua-version: 5.1
+      - task: run-rock-5.2
+        file: repo/.ci/rock.yml
+        vars:
+          lua-version: 5.2
+      - task: run-rock-5.3
+        file: repo/.ci/rock.yml
+        vars:
+          lua-version: 5.3
+      - task: run-rock-5.4
+        file: repo/.ci/rock.yml
+        vars:
+          lua-version: 5.4
