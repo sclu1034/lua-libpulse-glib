@@ -50,7 +50,9 @@ TEST_ARGS ?= --output=TAP
 CCFLAGS += -Werror
 endif
 
-.PHONY: clean doc doc-content doc-styles install uninstall test check rock
+.PHONY: all clean doc doc-content doc-styles install uninstall test check rock
+
+all: build doc
 
 build: $(TARGET)
 
