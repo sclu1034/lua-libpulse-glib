@@ -82,9 +82,6 @@ doc-styles: $(BUILD_DIR)/doc/ldoc.css
 doc-content: $(BUILD_DIR)/doc/index.html
 
 doc: doc-styles doc-content
-ifdef CI
-	touch "$(BUILD_DIR)/doc/.nojekyll"
-endif
 
 clean:
 	rm -r out/

@@ -1,0 +1,22 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: registry.local:5000/lua-clib-pulse
+    tag: latest
+
+inputs:
+- name: repo
+
+params:
+  CI: true
+  SOURCE_DIR: repo
+  BUILD_DIR: /tmp/build-output
+  DOCS_HOST: ((doc-host))
+  DOCS_CREDENTIALS: "((deploy-user)):((deploy-password))"
+
+run:
+  path: repo/.ci/deploy-docs.sh
+
