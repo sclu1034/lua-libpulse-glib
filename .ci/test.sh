@@ -15,9 +15,7 @@ eval "$(luarocks --lua-version ${LUA_VERSION:-5.1} path)"
 
 luarocks --lua-version ${LUA_VERSION:-5.1} install busted
 luarocks --lua-version ${LUA_VERSION:-5.1} install lgi
-luarocks --lua-version ${LUA_VERSION:-5.1} install ldoc
-luarocks --lua-version ${LUA_VERSION:-5.1} install lua-discount
 
-make -j $(nproc) -C ${SOURCE_DIR:-.} LUA_VERSION=${LUA_VERSION:-5.1} LUA=lua
+make -j $(nproc) -C ${SOURCE_DIR:-.} BUILD_DIR=${BUILD_DIR:-./build} LUA_VERSION=${LUA_VERSION:-5.1} LUA=lua build
 
 sudo disable-lua ${LUA_VERSION:-5.1}
