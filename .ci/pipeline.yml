@@ -62,7 +62,7 @@ jobs:
       trigger: true
     - task: deploy-docs
       file: repo/.ci/deploy-docs.yml
-      params:
+      vars:
         doc-host: ((doc-host))
         deploy-user: ((deploy-user))
         deploy-password: ((deploy-password))
