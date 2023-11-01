@@ -10,10 +10,8 @@
 #include <lualib.h>
 #include <pulse/glib-mainloop.h>
 
-
 #if LUA_VERSION_NUM <= 501
 // Shamelessly copied from Lua 5.3 source.
-// TODO: What's the official way to do this in 5.1?
 void luaL_setfuncs(lua_State* L, const luaL_Reg* l, int nup) {
     luaL_checkstack(L, nup, "too many upvalues");
     for (; l->name != NULL; l++) { /* fill the table with given functions */
@@ -29,11 +27,7 @@ void luaL_setfuncs(lua_State* L, const luaL_Reg* l, int nup) {
     }
     lua_pop(L, nup); /* remove upvalues */
 }
-
-
-#define luaL_newlib(L, l) (luaL_register(L, LUA_PULSEAUDIO, l))
 #endif
-
 
 int pulseaudio_new(lua_State* L) {
     GMainContext* ctx = g_main_context_default();
@@ -86,17 +80,13 @@ int pulseaudio_new_context(lua_State* L) {
 void createlib_volume(lua_State* L) {
     luaL_newmetatable(L, LUA_PA_VOLUME);
 
-    lua_createtable(L, 0, sizeof volume_f / sizeof volume_f[0]);
-    luaL_setfuncs(L, volume_f, 0);
+    luaL_newlib(L, volume_f);
     lua_setfield(L, -2, "__index");
 
     luaL_setfuncs(L, volume_mt, 0);
 
-#if LUA_VERSION_NUM <= 501
-    luaL_register(L, LUA_PA_VOLUME, volume_lib);
-#else
     luaL_newlib(L, volume_lib);
-#endif
+
     lua_setmetatable(L, -2);
 }
 
@@ -104,17 +94,12 @@ void createlib_volume(lua_State* L) {
 void createlib_proplist(lua_State* L) {
     luaL_newmetatable(L, LUA_PA_PROPLIST);
 
-    lua_createtable(L, 0, sizeof proplist_f / sizeof proplist_f[0]);
-    luaL_setfuncs(L, proplist_f, 0);
+    luaL_newlib(L, proplist_f);
     lua_setfield(L, -2, "__index");
 
     luaL_setfuncs(L, proplist_mt, 0);
 
-#if LUA_VERSION_NUM <= 501
-    luaL_register(L, LUA_PA_PROPLIST, proplist_lib);
-#else
     luaL_newlib(L, proplist_lib);
-#endif
 
     // Create a metatable with an `__index` table for read-only enum fields.
     lua_createtable(L, 0, 1);
@@ -133,8 +118,7 @@ void createlib_proplist(lua_State* L) {
 void createlib_context(lua_State* L) {
     luaL_newmetatable(L, LUA_PA_CONTEXT);
 
-    lua_createtable(L, 0, sizeof context_f / sizeof context_f[0]);
-    luaL_setfuncs(L, context_f, 0);
+    luaL_newlib(L, context_f);
     lua_setfield(L, -2, "__index");
 
     luaL_setfuncs(L, context_mt, 0);
@@ -144,17 +128,12 @@ void createlib_context(lua_State* L) {
 void createlib_pulseaudio(lua_State* L) {
     luaL_newmetatable(L, LUA_PULSEAUDIO);
 
-    lua_createtable(L, 0, sizeof pulseaudio_f / sizeof pulseaudio_f[0]);
-    luaL_setfuncs(L, pulseaudio_f, 0);
+    luaL_newlib(L, pulseaudio_f);
     lua_setfield(L, -2, "__index");
 
     luaL_setfuncs(L, pulseaudio_mt, 0);
 
-#if LUA_VERSION_NUM <= 501
-    luaL_register(L, LUA_PULSEAUDIO, pulseaudio_lib);
-#else
     luaL_newlib(L, pulseaudio_lib);
-#endif
 }
 
 
@@ -177,17 +156,11 @@ LUA_MOD_EXPORT int luaopen_lua_libpulse_glib(lua_State* L) {
 LUA_MOD_EXPORT int luaopen_lua_libpulse_glib_volume(lua_State* L) {
     luaL_newmetatable(L, LUA_PA_VOLUME);
 
-    lua_createtable(L, 0, sizeof volume_f / sizeof volume_f[0]);
-    luaL_setfuncs(L, volume_f, 0);
+    luaL_newlib(L, volume_f);
     lua_setfield(L, -2, "__index");
 
     luaL_setfuncs(L, volume_mt, 0);
 
-#if LUA_VERSION_NUM <= 501
-    luaL_register(L, LUA_PA_VOLUME, volume_lib);
-#else
     luaL_newlib(L, volume_lib);
-#endif
     return 1;
 }
-

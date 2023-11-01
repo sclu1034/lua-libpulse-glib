@@ -1,6 +1,4 @@
-#ifndef callback_h_INCLUDED
-#define callback_h_INCLUDED
-
+#pragma once
 
 #include <lua.h>
 #include <pulse/context.h>
@@ -40,6 +38,3 @@ void free_lua_callback(simple_callback_data*);
 
 // Simple implementation of `pa_context_success_cb_t` that calls a provided Lua function.
 void success_callback(pa_context*, int, void*);
-
-#endif // callback_h_INCLUDED
-

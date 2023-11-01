@@ -1,5 +1,4 @@
-#ifndef lua_util_h_INCLUDED
-#define lua_util_h_INCLUDED
+#pragma once
 
 #include <lauxlib.h>
 #include <lua.h>
@@ -8,6 +7,9 @@
 
 #if LUA_VERSION_NUM <= 501
 #define lua_rawlen lua_objlen
+
+#define luaL_newlib(L, l)      (luaL_newlibtable(L, l), luaL_setfuncs(L, l, 0))
+#define luaL_newlibtable(L, l) (lua_createtable(L, 0, sizeof(l) / sizeof(l[0])))
 #endif
 
 #if LUA_VERSION_NUM > 501
@@ -18,6 +20,3 @@ typedef struct luaU_enumfield {
     const char* name;
     const char* value;
 } luaU_enumfield;
-
-
-#endif // lua_util_h_INCLUDED
