@@ -24,6 +24,7 @@
 typedef struct lua_pa_context {
     pa_context* context;
     bool connected;
+    bool subscribed;
     simple_callback_data* state_callback_data;
     simple_callback_data* event_callback_data;
 } lua_pa_context;
@@ -94,6 +95,9 @@ int context_get_state(lua_State*);
  *
  * Any number of callbacks may be registered at the same time, and can be unscubscribed with
  * @{Context:unsubscribe}, using the returned subscription ID.
+ *
+ * This must called after the connection state changed to "ready" (index `4`). Otherwise
+ * it will have no effect.
  *
  * @function Context:subscribe
  * @tparam function cb

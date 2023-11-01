@@ -1,7 +1,7 @@
 #include "context.h"
 
-#include "pulseaudio.h"
 #include "lua_util.h"
+#include "pulseaudio.h"
 
 #include <pulse/context.h>
 #include <pulse/error.h>
@@ -33,18 +33,29 @@ void context_event_callback(pa_context* c, pa_subscription_event_type_t event_ty
     simple_callback_data* data = (simple_callback_data*) userdata;
     lua_State* L = data->L;
 
-    luaL_checktype(L, 1, LUA_TFUNCTION);
+    luaL_checktype(L, 1, LUA_TTABLE);
     luaL_checkudata(L, 2, LUA_PA_CONTEXT);
 
-    // `lua_call` will pop the function and arguments from the stack, but this callback will likely be called
-    // multiple times.
-    // To preseve the values for future calls, we need to duplicate them.
-    lua_pushvalue(L, 1);
-    lua_pushvalue(L, 2);
-    lua_pushinteger(L, event_type);
-    lua_pushinteger(L, index);
+    // Iterate over the list of subscription callbacks and call each one
+    lua_pushnil(L);
+    while (lua_next(L, 1) != 0) {
+        // TODO: Once we do have the "nothing here" value, we need to check for that here.
 
-    lua_call(L, 3, 0);
+        // Copy the `self` parameter
+        lua_pushvalue(L, 2);
+        lua_pushinteger(L, event_type);
+        lua_pushinteger(L, index);
+
+        lua_call(L, 3, 0);
+    }
+}
+
+
+void context_subscribe_success_callback(pa_context* _c, int success, void* userdata) {
+    simple_callback_data* data = (simple_callback_data*) userdata;
+    if (!success) {
+        luaL_error(data->L, "Failed to subscribe to events");
+    }
 }
 
 
@@ -62,6 +73,7 @@ int context_new(lua_State* L, pa_mainloop_api* pa_api) {
     }
     lgi_ctx->context = ctx;
     lgi_ctx->connected = FALSE;
+    lgi_ctx->subscribed = FALSE;
     lgi_ctx->state_callback_data = prepare_lua_callback(L, 0);
     lgi_ctx->event_callback_data = prepare_lua_callback(L, 0);
 
@@ -70,6 +82,10 @@ int context_new(lua_State* L, pa_mainloop_api* pa_api) {
 
     luaL_getmetatable(L, LUA_PA_CONTEXT);
     lua_setmetatable(L, -2);
+
+    // Copy the `context` value to the event callback
+    lua_pushvalue(L, -1);
+    lua_xmove(L, lgi_ctx->event_callback_data->L, 1);
 
     return 1;
 }
@@ -197,8 +213,19 @@ int context_subscribe(lua_State* L) {
     lua_pa_context* ctx = luaL_checkudata(L, 1, LUA_PA_CONTEXT);
     luaL_checktype(L, 2, LUA_TFUNCTION);
 
+    // This call is only effective when the connection state is "ready".
+    // So we have to do it here, rather than during `context_connect`,
+    // but we also need to make sure it's only called once.
+    if (!ctx->subscribed) {
+        pa_context_subscribe(ctx->context,
+                             PA_SUBSCRIPTION_MASK_ALL,
+                             context_subscribe_success_callback,
+                             ctx->event_callback_data);
+    }
+
     size_t pos = lua_rawlen(ctx->event_callback_data->L, 1) + 1;
     // Duplicate the callback function, so we can move it over to the other thread
+    // TODO: Do we actually need to duplicate?
     lua_pushvalue(L, 2);
     lua_xmove(L, ctx->event_callback_data->L, 1);
     lua_rawseti(ctx->event_callback_data->L, 1, pos);
@@ -217,6 +244,14 @@ int context_unsubscribe(lua_State* L) {
     if (len == 0) {
         return 0;
     }
+
+    // TODO: Handle calling this twice on the same index.
+    // Given that we use an array to track things, and Lua's way of counting in arrays
+    // doesn't like `nil`s, we probably need a special "nothing here" value that's not `nil`,
+    // and signifies an index that has already been unsubscribed.
+
+    // TODO: Simplify things. Supporting just the index is enough.
+    // Comparing by function is convenient, but also confusing to inexperienced devs.
 
     switch (lua_type(L, 2)) {
     case LUA_TNUMBER: {
@@ -257,6 +292,8 @@ int context_unsubscribe(lua_State* L) {
     }
     }
 
+    // TODO: As explained above, we need to handle calling unsubscribe twice better.
+    // Indices should not be re-used but replaced by a special "nothing here" value.
     for (; pos < len; ++pos) {
         lua_rawgeti(thread_L, 1, pos + 1);
         lua_rawseti(thread_L, 1, pos);
