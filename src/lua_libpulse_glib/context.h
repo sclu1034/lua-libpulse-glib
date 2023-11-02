@@ -512,6 +512,8 @@ static const struct luaL_Reg context_f[] = {
     { "get_server_info",          context_get_server_info            },
     { "get_sinks",                context_get_sink_info_list         },
     { "get_sink_info",            context_get_sink_info              },
+    { "get_sink_info_by_name",    context_get_sink_info_by_name      },
+    { "get_sink_info_by_index",   context_get_sink_info_by_index     },
     { "set_sink_volume",          context_set_sink_volume            },
     { "set_sink_mute",            context_set_sink_mute              },
     { "set_sink_suspended",       context_set_sink_suspended         },

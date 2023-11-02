@@ -72,6 +72,8 @@ void sink_info_callback(pa_context* c, const pa_sink_info* info, int eol, void* 
         if (!eol) {
             lua_pushfstring(L, "only one sink info expected, but got multiple");
             lua_call(L, 1, 0);
+
+            free_lua_callback(data);
         } else {
             lua_pushnil(L);
             sink_info_to_lua(L, info);

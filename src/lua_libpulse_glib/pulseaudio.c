@@ -124,6 +124,7 @@ void createlib_context(lua_State* L) {
     luaL_setfuncs(L, context_mt, 0);
 }
 
+#define enum_field(L, idx, name) (lua_pushinteger(L, PA_##name), lua_setfield(L, idx, #name))
 
 void createlib_pulseaudio(lua_State* L) {
     luaL_newmetatable(L, LUA_PULSEAUDIO);
@@ -134,6 +135,22 @@ void createlib_pulseaudio(lua_State* L) {
     luaL_setfuncs(L, pulseaudio_mt, 0);
 
     luaL_newlib(L, pulseaudio_lib);
+
+    // pa_subscription_event_type
+    enum_field(L, -2, SUBSCRIPTION_EVENT_SINK);
+    enum_field(L, -2, SUBSCRIPTION_EVENT_SOURCE);
+    enum_field(L, -2, SUBSCRIPTION_EVENT_SINK_INPUT);
+    enum_field(L, -2, SUBSCRIPTION_EVENT_SOURCE_OUTPUT);
+    enum_field(L, -2, SUBSCRIPTION_EVENT_MODULE);
+    enum_field(L, -2, SUBSCRIPTION_EVENT_CLIENT);
+    enum_field(L, -2, SUBSCRIPTION_EVENT_SAMPLE_CACHE);
+    enum_field(L, -2, SUBSCRIPTION_EVENT_SERVER);
+    enum_field(L, -2, SUBSCRIPTION_EVENT_CARD);
+    enum_field(L, -2, SUBSCRIPTION_EVENT_NEW);
+    enum_field(L, -2, SUBSCRIPTION_EVENT_CHANGE);
+    enum_field(L, -2, SUBSCRIPTION_EVENT_REMOVE);
+    enum_field(L, -2, SUBSCRIPTION_EVENT_FACILITY_MASK);
+    enum_field(L, -2, SUBSCRIPTION_EVENT_TYPE_MASK);
 }
 
 

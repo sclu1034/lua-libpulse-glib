@@ -44,7 +44,8 @@ void context_event_callback(pa_context* c, pa_subscription_event_type_t event_ty
         // Copy the `self` parameter
         lua_pushvalue(L, 2);
         lua_pushinteger(L, event_type);
-        lua_pushinteger(L, index);
+        // Adjust the index to Lua's 1-base
+        lua_pushinteger(L, index + 1);
 
         lua_call(L, 3, 0);
     }
